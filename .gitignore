@@ -1,0 +1,64 @@
+# Gradle files
+.gradle/
+build/
+**/build/
+
+# Local configuration file (sdk location, etc.)
+local.properties
+
+# Log files
+*.log
+
+# Android Studio files
+.idea/
+*.iml
+*.iws
+*.ipr
+*.hprof
+
+# Keystore files (do not include your keystore files in version control)
+*.jks
+*.keystore
+
+# Gradle Wrapper files
+gradle/wrapper/gradle-wrapper.properties
+gradle/wrapper/gradle-wrapper.jar
+
+# Proguard files
+proguard/
+proguard-rules.pro
+
+# Dependency directories
+**/intermediates/
+**/generated/
+**/out/
+**/libs/
+
+# Android Studio's cache folder
+.cxx/
+.externalNativeBuild/
+cmake-build-debug/
+
+# Captures by Android Studio
+captures/
+
+# Miscellaneous
+.DS_Store
+*.class
+*.swp
+*.swo
+*.jar
+*.apk
+*.ap_
+*.dex
+
+# Generated files
+.generated/
+.gen/
+target/
+
+# Package files
+*.tar.gz
+*.zip
+*.7z
+*.rar
