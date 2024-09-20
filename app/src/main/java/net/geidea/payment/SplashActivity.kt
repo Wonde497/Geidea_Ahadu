@@ -32,7 +32,7 @@ class SplashActivity : AppCompatActivity() {
                 IS_KERNEL_CONFIG_COMPLETED
             ) ?: false
             if (isKernelConfigured) {
-                val intent = Intent(this@SplashActivity, MainMenuActivity::class.java)
+                val intent = Intent(this@SplashActivity, RegisterAdmin::class.java)
                 startActivity(intent)
             } else {
                 val intent = Intent(this@SplashActivity, KernelConfigActivity::class.java)

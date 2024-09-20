@@ -1,6 +1,7 @@
 package net.geidea.payment.com
 
 import android.util.Log
+import net.geidea.payment.tlv.HexUtil
 import java.io.IOException
 import java.io.InputStream
 import java.io.OutputStream
@@ -39,8 +40,8 @@ class Comm {
     }
 
     fun connect(): Boolean {
-        Log.d(TAG, "CONNECT: ")
-        // Log.e(TAG, "COM ostadd "+ HostInformation.hostAddr+"    COMPort   "+ HostInformation.hostPort)
+        Log.d(TAG, "SERVER CONNECTED ")
+        Log.e(TAG, "COM host address:10.131.232.61   Port:9500")
 
         if (status > 0) {
             if (this.ip == ip && this.port == port) {
@@ -69,9 +70,9 @@ class Comm {
             return 0
         }
 
-        Log.d(TAG, "SEND: ")
-        //Log.d(TAG, "SEND hex  " + Utility.byte2HexStr(data))
-        // Log.d(TAG, "SEND String  " + String(data))
+        Log.d(TAG, "PACKET SENT SUCCESSFULLY ")
+        Log.d(TAG, "SENT DATA(HEX) " + HexUtil.toHexString(data))
+        Log.d(TAG, "SENT String " + String(data))
 
         return try {
             outputStream = socket?.getOutputStream()

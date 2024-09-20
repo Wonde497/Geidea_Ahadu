@@ -47,6 +47,9 @@
             android:name=".MainActivity"
             android:exported="false" />
         <activity
+            android:name=".RegisterAdmin"
+            android:exported="false" />
+        <activity
             android:name=".help.HelpMainActivity"
             android:exported="false" />
         <activity
