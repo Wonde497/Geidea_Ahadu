@@ -5,8 +5,8 @@
     <application
         android:name=".GeideaApplication"
         android:allowBackup="false"
-        android:icon="@drawable/ic_launcher"
-        android:roundIcon="@drawable/ic_launcher"
+        android:icon="@drawable/ahadu_logo3"
+        android:roundIcon="@drawable/ahadu_logo3"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.Payment"
@@ -41,8 +41,26 @@
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".MainMenuActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="false" />
-    </application>
+        <activity
+            android:name=".help.HelpMainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".login.LoginMainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".users.AdminMainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".users.SupportMainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".users.CashierMainActivity"
+            android:exported="false" />
 
+    </application>
 </manifest>

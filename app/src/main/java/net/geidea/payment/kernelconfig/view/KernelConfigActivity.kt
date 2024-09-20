@@ -7,6 +7,7 @@ import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
 import dagger.hilt.android.AndroidEntryPoint
 import net.geidea.payment.MainActivity
+import net.geidea.payment.MainMenuActivity
 import net.geidea.payment.R
 import net.geidea.payment.databinding.ActivityKernelConfigBinding
 import net.geidea.payment.kernelconfig.viewmodel.KernelConfigViewModel
@@ -31,7 +32,7 @@ class KernelConfigActivity : AppCompatActivity() {
         {
             if (it)
             {
-                val intent = Intent(this@KernelConfigActivity,MainActivity::class.java)
+                val intent = Intent(this@KernelConfigActivity,MainMenuActivity::class.java)
                 startActivity(intent)
                 finish()
             }

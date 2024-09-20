@@ -646,12 +646,12 @@ class CardReadViewModel @Inject constructor(@ApplicationContext val context: Con
         lateinit var value:String
         for(tags in tagList){
             if(tags=="95"){
-               value="0000000000"
-              }else if(tags=="9F34"){
-                  value="000000"
-              }else {
+                value="0000000000"
+            }else if(tags=="9F34"){
+                value="000000"
+            }else {
                 value= tagValueMap[tags].toString()
-                    }
+            }
             total.append(tags).append(HexUtil.dec2Hex((value.length)/2)).append(value)
         }
 

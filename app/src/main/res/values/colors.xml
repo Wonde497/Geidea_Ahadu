@@ -11,6 +11,8 @@
     <color name="secondary_text_light">@android:color/secondary_text_light</color>
     <color name="blue">#2343F4</color>
     <color name="red">#E60303</color>
+    <color name="ahadu_red1">#7B1235</color>
+    <color name="ahadu_red2">#9A1733</color>
     <color name="green">#20C327</color>
     <color name="yellow">#FFE609</color>
     <color name="colorDivider">#ffe6ebf3</color>

@@ -12,6 +12,7 @@ import net.geidea.payment.kernelconfig.view.KernelConfigActivity
 import net.geidea.payment.utils.IS_KERNEL_CONFIG_COMPLETED
 import net.geidea.utils.DataStoreUtils
 import net.geidea.utils.extension.ioCoroutine
+import net.geidea.payment.MainMenuActivity
 
 @AndroidEntryPoint
 class SplashActivity : AppCompatActivity() {
@@ -26,12 +27,12 @@ class SplashActivity : AppCompatActivity() {
             )
         )
         ioCoroutine {
-            delay(1000)
+            delay(2000)
             val isKernelConfigured = DataStoreUtils.getInstance(this@SplashActivity).getBoolean(
                 IS_KERNEL_CONFIG_COMPLETED
             ) ?: false
             if (isKernelConfigured) {
-                val intent = Intent(this@SplashActivity, MainActivity::class.java)
+                val intent = Intent(this@SplashActivity, MainMenuActivity::class.java)
                 startActivity(intent)
             } else {
                 val intent = Intent(this@SplashActivity, KernelConfigActivity::class.java)
