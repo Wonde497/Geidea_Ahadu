@@ -255,7 +255,6 @@ class CardReadViewModel @Inject constructor(@ApplicationContext val context: Con
                 setTransData()
 
 
-
                 //sent transaction online here
                 val mainHandler = Handler(Looper.getMainLooper())
                 mainHandler.postDelayed({
@@ -292,7 +291,6 @@ class CardReadViewModel @Inject constructor(@ApplicationContext val context: Con
 
             }
         }
-
 
 
         override fun onTransactionResult(result: Int, bundle: Bundle) {
@@ -528,11 +526,8 @@ class CardReadViewModel @Inject constructor(@ApplicationContext val context: Con
         val tlvParser = BerTlvParser()
         val tlvs: BerTlvs = tlvParser.parse(data)
         for (tlv in tlvs.list) {
-            if (tlv.tag.berTagHex == "5A" || tlv.tag.berTagHex == "57") {
-                tagValueMap[tlv.tag.berTagHex] = tlv.hexValue
-            } else {
-                tagValueMap[tlv.tag.berTagHex] = tlv.hexValue
-            }
+            tagValueMap[tlv.tag.berTagHex] = tlv.hexValue
+
         }
     }
 
@@ -637,26 +632,28 @@ class CardReadViewModel @Inject constructor(@ApplicationContext val context: Con
     private fun printTags() {
         tagValueMap.forEach {
             Log.d(tag, "Tag : ${it.key} Value : ${it.value}")
-            if(it.key.equals("57")){
-                TransData.RequestFields.Field35=it.value
-            }
-        }
-        val tagList = arrayListOf("82", "84", "95","9A","9C","5F2A","5F34","9F02","9F10","9F1A","9F26","9F27","9F33","9F34","9F35","9F36","9F37")
-        val total = StringBuilder()
-        lateinit var value:String
-        for(tags in tagList){
-            if(tags=="95"){
-                value="0000000000"
-            }else if(tags=="9F34"){
-                value="000000"
-            }else {
-                value= tagValueMap[tags].toString()
-            }
-            total.append(tags).append(HexUtil.dec2Hex((value.length)/2)).append(value)
-        }
 
-        Log.d(tag, "Field55Total:${total}")
-        TransData.RequestFields.Field55 = total.toString()
+        Log.d(tag, "Tag : ${it.key} Value : ${it.value}")
+        if(it.key.equals("57")){
+            TransData.RequestFields.Field35=it.value
+        }
+    }
+    val tagList = arrayListOf("82", "84", "95","9A","9C","5F2A","5F34","9F02","9F10","9F1A","9F26","9F27","9F33","9F34","9F35","9F36","9F37")
+    val total = StringBuilder()
+    lateinit var value:String
+    for(tags in tagList){
+        if(tags=="95"){
+            value="0000000000"
+        }else if(tags=="9F34"){
+            value="000000"
+        }else {
+            value= tagValueMap[tags].toString()
+        }
+        total.append(tags).append(HexUtil.dec2Hex((value.length)/2)).append(value)
+    }
+
+    Log.d(tag, "Field55Total:${total}")
+    TransData.RequestFields.Field55 = total.toString()
     }
 
     fun setAmount(amount: Long) {

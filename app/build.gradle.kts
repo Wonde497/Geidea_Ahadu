@@ -42,10 +42,12 @@ android {
         dataBinding = true
         viewBinding = true
         buildConfig = true
+        aidl = true
     }
 }
 
 dependencies {
+    implementation("androidx.activity:activity:1.9.1")
     val lifecycleVersion = "2.5.1"
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar", "*.aar"))))
     implementation("androidx.core:core-ktx:1.13.1")

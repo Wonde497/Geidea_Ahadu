@@ -8,9 +8,6 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
-import com.pos.sdk.accessory.POIGeneralAPI
 import com.pos.sdk.printer.PosPrinter
 import com.pos.sdk.printer.PosPrinterInfo
 import com.pos.sdk.security.POIHsmManage
@@ -19,13 +16,10 @@ import com.pos.sdk.security.PedKeyInfo
 import com.pos.sdk.utils.PosByteArray
 import com.pos.sdk.utils.PosUtils
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import net.geidea.payment.databinding.ActivityMainBinding
 import net.geidea.payment.print.Printer
 import net.geidea.payment.tlv.HexUtil
+import net.geidea.payment.usbcomm.USBCommunicationActivity
 import net.geidea.payment.utils.DUKPT_INDEX
 import net.geidea.payment.utils.DUKPT_IPEK
 import net.geidea.payment.utils.DUKPT_KSN
@@ -65,6 +59,10 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    private fun openPrintNtimesScreen() {
+        val intent = Intent(this@MainActivity, PrintNTimesActivity::class.java)
+        startActivity(intent)
+    }
 
     private fun navItemCLickListener() {
         binding.navigationView.setNavigationItemSelectedListener {
@@ -74,9 +72,16 @@ class MainActivity : AppCompatActivity() {
                 R.id.action_print -> {
                     doSamplePrint()
                 }
+                R.id.action_print_n_times -> {
+                    openPrintNtimesScreen()
+                }
 
                 R.id.action_settings -> {
                     openSettingsScreen()
+                }
+
+                R.id.action_usb_communication -> {
+                    openUSBCommunication()
                 }
 
                 R.id.action_erase_all_key -> {
@@ -208,6 +213,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun openSettingsScreen() {
         val intent = Intent(this@MainActivity, SettingsActivity::class.java)
+        startActivity(intent)
+    }
+
+    private fun openUSBCommunication() {
+        val intent = Intent(this@MainActivity, USBCommunicationActivity::class.java)
         startActivity(intent)
     }
 

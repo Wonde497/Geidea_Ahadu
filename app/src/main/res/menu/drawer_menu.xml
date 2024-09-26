@@ -4,6 +4,10 @@
         android:id="@+id/action_print"
         android:title="@string/print" />
 
+    <item
+        android:id="@+id/action_print_n_times"
+        android:title="@string/print_n_times" />
+
 
     <item
         android:id="@+id/action_inject_dukpt"
@@ -24,6 +28,10 @@
     <item
         android:id="@+id/action_increase_ksn"
         android:title="@string/increase_ksn" />
+
+    <item
+        android:id="@+id/action_usb_communication"
+        android:title="@string/usb_communication" />
 
     <item
         android:id="@+id/action_settings"

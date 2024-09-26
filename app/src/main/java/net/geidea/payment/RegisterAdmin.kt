@@ -15,13 +15,15 @@ class RegisterAdmin : AppCompatActivity() {
         binding=ActivityRegisterAdminBinding.inflate(layoutInflater)
         setContentView(binding.root)
         dbHandler=DBHandler(this)
-        binding.btRegisterAdmin.setOnClickListener {
+
+        binding.btnRegister.setOnClickListener {
             if(binding.etUsername.text.toString().isNotEmpty()&&binding.etPassword.text.toString().isNotEmpty()&&binding.etConfirmPassword.text.toString().isNotEmpty()){
                 if (binding.etPassword.text.toString().equals(binding.etConfirmPassword.text.toString())){
                     dbHandler.registerAdmin(binding.etUsername.text.toString(),binding.etPassword.text.toString())
                     Toast.makeText(this,"Admin Registered Successfully", Toast.LENGTH_SHORT).show()
-                    val intent= Intent(this@RegisterAdmin,MainMenuActivity::class.java)
+                    val intent= Intent(this@RegisterAdmin,RegisterTID::class.java)
                     startActivity(intent)
+                    finish()
                 }else binding.etConfirmPassword.setError("passwords should be same!")
             }else Toast.makeText(this,"Please fill all fields",Toast.LENGTH_SHORT).show()
 
@@ -36,6 +38,8 @@ class RegisterAdmin : AppCompatActivity() {
         finish()
 
     }
+
+
 
 
     }

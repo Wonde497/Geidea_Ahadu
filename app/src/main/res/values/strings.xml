@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Ahadu POS</string>
+    <string name="app_name">Geidea Pay</string>
     <string name="kernel_configuring">Kernel Configuring</string>
     <string name="kernel_configuration">Kernel Configuration</string>
     <string name="geidea">Geidea</string>
@@ -47,6 +47,9 @@
     <string name="emv_terminated">EMV Terminated</string>
     <string name="emv_command_fail">EMV Command Fail</string>
     <string name="print">Print</string>
+    <string name="stop_print">Stop Print</string>
+    <string name="resume_print">Resume Print</string>
+    <string name="print_n_times">Print "\"N"\" Times</string>
     <string name="settings">Settings</string>
     <string name="open">Open</string>
     <string name="close">Close</string>
@@ -54,6 +57,7 @@
     <string name="erase_all_key">Erase All Key</string>
     <string name="fetch_current_ksn">Fetch Current KSN</string>
     <string name="increase_ksn">Increase KSN</string>
+    <string name="usb_communication">USB Communication</string>
     <string name="print_receipt">Print Receipt</string>
     <string name="device_owner_verification_msg_eng">DEVICE OWNER IDENTITY VERIFIED</string>
     <string name="cardholder_pin_verified_eng">CARDHOLDER PIN VERIFIED</string>
@@ -68,4 +72,15 @@
     <string name="nav_button">Navigation Button</string>
     <string name="start_new_transaction">Start New Transaction</string>
     <string name="inject_master_Session_key">Inject Master Session key</string>
+
+
+    <string name="label_port_open">OPEN SerialPort</string>
+    <string name="label_port_close">CLOSE SerialPort</string>
+    <string name="label_port_connect">Connect SerialPort</string>
+    <string name="label_port_disconnect">DisConnect SerialPort</string>
+    <string name="label_port_send">SEND</string>
+    <string name="label_port_recv">RECV</string>
+    <string name="label_port_nonblockrecv">NONBLOCK RECV</string>
+    <string name="label_port_reset">RESET</string>
+    <string name="label_port_cancelrecv">CANCEL RECV</string>
 </resources>
