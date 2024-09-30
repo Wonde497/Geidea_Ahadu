@@ -52,12 +52,13 @@
                 android:gravity="center">
 
                 <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/currency"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="SAR"
                     android:textColor="@color/black"
                     android:textSize="18sp"
-                    android:visibility="gone" />
+                     />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/amount_in_english"

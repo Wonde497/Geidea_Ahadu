@@ -1,15 +1,22 @@
 package net.geidea.payment.transaction.model
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.icu.text.SimpleDateFormat
 import android.util.Log
 import androidx.annotation.Keep
+import net.geidea.payment.DBHandler
 import net.geidea.payment.tlv.HexUtil
 import java.nio.ByteBuffer
 import java.util.Date
 import java.util.Locale
 
 @Keep
-class TransData {
+class TransData(private val context:Context) {
+      val sharedPreferences=context.getSharedPreferences("SHARED_DATA",Context.MODE_PRIVATE)
+
+    var txnType=sharedPreferences.getString("TXN_TYPE","")
+
     var entryMode:String = ""
     var cardLabelNameEng = ""
     var amount:Long = 0L
@@ -75,6 +82,14 @@ class TransData {
 
     }
     fun assignValue2Fields(){
+        if(txnType.equals("PURCHASE")){
+       Log.d(TAG,"txn type"+txnType)
+
+        }
+        if(txnType.equals("REVERSAL")){
+            RequestFields.MTI="0400"
+            RequestFields.primaryBitmap="7230058028C08200"
+        }
 
         RequestFields.primaryBitmap="7234058020C09200"//bitmap for online pin
         RequestFields.Field02=pan
@@ -93,9 +108,11 @@ class TransData {
 
         }
         Log.d(TAG,"Field35:"+RequestFields.Field35)
-        RequestFields.Field41="TID12345"
-        RequestFields.Field42="MID123456789012"
-
+        val dbHandler=DBHandler(context)
+        RequestFields.Field41=dbHandler.getTID()//"TID12345"
+        Log.d(TAG,"terminalID:"+RequestFields.Field41)
+        RequestFields.Field42=dbHandler.getMID()//"MID123456789012"
+        Log.d(TAG,"merchantID:"+RequestFields.Field42)
         RequestFields.Field52=pinBlock
         Log.d(TAG,"Field52:"+RequestFields.Field52)
 

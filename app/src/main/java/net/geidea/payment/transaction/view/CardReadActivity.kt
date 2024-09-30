@@ -2,6 +2,7 @@ package net.geidea.payment.transaction.view
 
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -39,6 +40,7 @@ class CardReadActivity : AppCompatActivity() {
     private val cardReadViewModel by viewModels<CardReadViewModel>()
     private var isTransactionCompleted = false
     private lateinit var showProgressDialog: SweetAlertDialog
+    private lateinit var sharedPreferences:SharedPreferences
 
 
     companion object {
@@ -56,8 +58,10 @@ class CardReadActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_card_read)
         binding.viewModel = cardReadViewModel
         binding.lifecycleOwner = this
+        sharedPreferences= getSharedPreferences("SHARED_DATA",Context.MODE_PRIVATE)
+        binding.currency.text=sharedPreferences.getString("Currency","")
         val amount = intent.getLongExtra("amount", 0)
-        cardReadViewModel.setAmountEnglish(CurrencyConverter.convert(amount))
+        cardReadViewModel.setAmountEnglish(CurrencyConverter.convertWithoutSAR(amount))
         cardReadViewModel.setAmount(amount)
         observeTransactionProgress()
         cardReadViewModel.startTransaction()
@@ -314,6 +318,7 @@ class CardReadActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
+        super.onBackPressed()
         FirebaseDatabaseSingleton.setLog("onBackPressed")
         if (isTransactionCompleted) {
             onBackPressedDispatcher.onBackPressed()

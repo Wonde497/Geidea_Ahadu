@@ -1,6 +1,9 @@
 package net.geidea.payment
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
+import android.content.SharedPreferences.Editor
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -21,6 +24,8 @@ class MainMenuActivity : AppCompatActivity() {
     private val TAG = "MainMenuActivity" // For logging purposes
     private lateinit var binding: ActivityMainMenuBinding // Binding object for layout
     private lateinit var actionBarDrawerToggle: ActionBarDrawerToggle // For managing the drawer layout
+    private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var editor: SharedPreferences.Editor
     private val imageResIds = listOf(
         R.drawable.ahadu_logo4,
         R.drawable.ahadu_card1,
@@ -35,6 +40,8 @@ class MainMenuActivity : AppCompatActivity() {
 
         // Inflate the layout using DataBindingUtil
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main_menu)
+        sharedPreferences=getSharedPreferences("SHARED_DATA", Context.MODE_PRIVATE)
+        editor=sharedPreferences.edit()
 
         // Setup ActionBarDrawerToggle for navigation drawer
         actionBarDrawerToggle = ActionBarDrawerToggle(
@@ -87,11 +94,14 @@ class MainMenuActivity : AppCompatActivity() {
     private fun setUpCardViewListeners() {
         binding.cardView1.setOnClickListener {
             Toast.makeText(this, "CardView 1 clicked", Toast.LENGTH_SHORT).show()
+            sharedPreferences=getSharedPreferences("SHARED_DATA", Context.MODE_PRIVATE)
             val intent = Intent(this@MainMenuActivity, LoginMainActivity::class.java)
             startActivity(intent)
         }
 
         binding.cardView2.setOnClickListener {
+            editor.putString("TXN_TYPE","PURCHASE")
+            editor.commit()
             Toast.makeText(this, "CardView 2 clicked", Toast.LENGTH_SHORT).show()
             val intent = Intent(this@MainMenuActivity, MainActivity::class.java)
             startActivity(intent)

@@ -68,7 +68,7 @@ class CardReadViewModel @Inject constructor(@ApplicationContext val context: Con
     private val printerManager: POIPrinterManager by lazy { POIPrinterManager(context) }
     var transactionStatus: MutableLiveData<TransactionProcess> = MutableLiveData()
         private set
-    val transData = TransData()
+    val transData = TransData(context)
     private var tagValueMap = hashMapOf<String, String>()
     var pinEntryCount = -1
         private set
@@ -232,7 +232,8 @@ class CardReadViewModel @Inject constructor(@ApplicationContext val context: Con
         override fun onRequestInputPin(bundle: Bundle) {
             Log.d(tag, "onRequestInputPin")
             ioCoroutine {
-                POIHsmManage.getDefault().PedDukptIncreaseKsn(1)
+              //  POIHsmManage.()
+               POIHsmManage.getDefault().PedDukptIncreaseKsn(1)
                 LogUtils.d(tag, "onRequestInputPin type ->$entryMode")
                 isIcSlot = entryMode == EntryMode.DIPPED
                 pinBundle = bundle

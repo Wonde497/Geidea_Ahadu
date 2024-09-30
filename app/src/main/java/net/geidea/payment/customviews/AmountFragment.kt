@@ -1,5 +1,7 @@
 package net.geidea.payment.customviews
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,6 +17,7 @@ import net.geidea.utils.CurrencyConverter
 class AmountFragment : Fragment() {
 
     private lateinit var binding: FragmentAmountBinding
+    private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -26,10 +29,13 @@ class AmountFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        sharedPreferences= requireActivity().getSharedPreferences("SHARED_DATA",Context.MODE_PRIVATE)
+        binding.currencyLabel.text=sharedPreferences.getString("Currency","")
         attachKeyboardListener()
     }
 
     private fun attachKeyboardListener() {
+
         binding.keyboardLayout.setOnInteractionListener(onKeyValue = {
             binding.amount.text = CurrencyConverter.convertWithoutSAR(it.toLong())
         }, onConfirm = { amount, _ ->
@@ -38,7 +44,7 @@ class AmountFragment : Fragment() {
                 FirebaseDatabaseSingleton.setLog( "New Transaction Amount - $logAmt")
                 CardReadActivity.startTransaction(requireContext(), amount)
             }
-        })
+        } )
     }
 
     override fun onStop() {

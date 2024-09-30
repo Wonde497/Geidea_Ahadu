@@ -185,6 +185,7 @@ class MainActivity : AppCompatActivity() {
             )
             return
         }
+        else Log.d(TAG, "injectMKSK: updateKeyMKSK PED_TAK succ")
 
 
         // TAK: the session key that is used to generate MAC for the message
@@ -259,8 +260,9 @@ class MainActivity : AppCompatActivity() {
     private fun updateKeyMKSK(
         protectKeyType: Int, protectKeyIndex: Int, Keydata: String, keyType: Int, keyIndex: Int
     ): Int {
-
+     Log.d(TAG,"updateKeyMKSN clicked")
         val keyData = PosUtils.hexStringToBytes(Keydata)
+        Log.d(TAG,"key data..."+Keydata)
         val mkInfo = PedKeyInfo(
             protectKeyType, protectKeyIndex, keyType, keyIndex, KEY_ALG_3DES, keyData.size, keyData
         )

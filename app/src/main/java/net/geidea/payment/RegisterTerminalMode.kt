@@ -32,7 +32,45 @@ class RegisterTerminalMode : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
+        binding.cardMerchant.setOnClickListener {
+            sharedPreferences=getSharedPreferences("SHARED_DATA", Context.MODE_PRIVATE)
+            editor=sharedPreferences.edit()
+            editor.putBoolean("MERCHANT MODE",true)
+            editor.commit()
+            val intent= Intent(this,RegisterCurrency::class.java)
+            startActivity(intent)
+            finish()
+
+        }
+        binding.imageButton1.setOnClickListener {
+            sharedPreferences=getSharedPreferences("SHARED_DATA", Context.MODE_PRIVATE)
+            editor=sharedPreferences.edit()
+            editor.putBoolean("MERCHANT MODE",true)
+            editor.commit()
+            val intent= Intent(this,RegisterCurrency::class.java)
+            startActivity(intent)
+            finish()
+        }
         binding.textView2.setOnClickListener {
+            sharedPreferences=getSharedPreferences("SHARED_DATA", Context.MODE_PRIVATE)
+            editor=sharedPreferences.edit()
+            editor.putBoolean("BRANCH MODE",true)
+            editor.commit()
+            val intent= Intent(this,RegisterCurrency::class.java)
+            startActivity(intent)
+            finish()
+        }
+        binding.cardBranch.setOnClickListener {
+            sharedPreferences=getSharedPreferences("SHARED_DATA", Context.MODE_PRIVATE)
+            editor=sharedPreferences.edit()
+            editor.putBoolean("BRANCH MODE",true)
+            editor.commit()
+            val intent= Intent(this,RegisterCurrency::class.java)
+            startActivity(intent)
+            finish()
+        }
+        binding.imageButton2.setOnClickListener{
+
             sharedPreferences=getSharedPreferences("SHARED_DATA", Context.MODE_PRIVATE)
             editor=sharedPreferences.edit()
             editor.putBoolean("BRANCH MODE",true)

@@ -18,6 +18,7 @@ class RegisterCurrency : AppCompatActivity() {
         setContentView(binding.root)
         sharedPreferences=getSharedPreferences("SHARED_DATA", Context.MODE_PRIVATE)
         editor=sharedPreferences.edit()
+        //3 listeners for ETB
         binding.textView1.setOnClickListener {
             editor.putString("Currency","ETB")
             editor.commit()
@@ -25,6 +26,22 @@ class RegisterCurrency : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
+        binding.imageButton1.setOnClickListener {
+            editor.putString("Currency","ETB")
+            editor.commit()
+            val intent= Intent(this,RegisterCommunicationMode::class.java)
+            startActivity(intent)
+            finish()
+        }
+        binding.cardETB.setOnClickListener {
+            editor.putString("Currency","ETB")
+            editor.commit()
+            val intent= Intent(this,RegisterCommunicationMode::class.java)
+            startActivity(intent)
+            finish()
+        }
+
+        //3 listeners for USD
         binding.textView2.setOnClickListener {
             editor.putString("Currency","USD")
             editor.commit()
@@ -32,7 +49,36 @@ class RegisterCurrency : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
+        binding.imageButton2.setOnClickListener {
+            editor.putString("Currency","USD")
+            editor.commit()
+            val intent= Intent(this,RegisterCommunicationMode::class.java)
+            startActivity(intent)
+            finish()
+        }
+        binding.cardUSD.setOnClickListener {
+            editor.putString("Currency","USD")
+            editor.commit()
+            val intent= Intent(this,RegisterCommunicationMode::class.java)
+            startActivity(intent)
+            finish()
+        }
+        // 3 listeners for EURO
         binding.textView3.setOnClickListener {
+            editor.putString("Currency","EURO")
+            editor.commit()
+            val intent= Intent(this,RegisterCommunicationMode::class.java)
+            startActivity(intent)
+            finish()
+        }
+        binding.imageButton3.setOnClickListener {
+            editor.putString("Currency","EURO")
+            editor.commit()
+            val intent= Intent(this,RegisterCommunicationMode::class.java)
+            startActivity(intent)
+            finish()
+        }
+        binding.cardEuro.setOnClickListener {
             editor.putString("Currency","EURO")
             editor.commit()
             val intent= Intent(this,RegisterCommunicationMode::class.java)

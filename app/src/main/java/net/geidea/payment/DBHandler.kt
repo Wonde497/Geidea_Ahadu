@@ -4,6 +4,7 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import net.geidea.payment.transaction.model.TransData
 
 class DBHandler(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION){
     companion object {
@@ -186,6 +187,30 @@ class DBHandler(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, nul
 
         return isRegistered
 
+    }
+    fun getTID(): String {
+        val db = this.readableDatabase
+        val cursor = db.rawQuery("SELECT $COLUMN_TID FROM $TABLE_TID", null)
+        var tid = ""
+
+        if (cursor.moveToFirst()) {
+            tid = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TID))
+        }
+        cursor.close()
+
+        return tid
+    }
+    fun getMID():String{
+
+        val db = this.readableDatabase
+        val cursor = db.rawQuery("SELECT $COLUMN_MID FROM $TABLE_MID", null)
+        var mid=""
+        if(cursor.moveToFirst()){
+            mid = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_MID))
+        }
+        cursor.close()
+
+        return mid
     }
 
 

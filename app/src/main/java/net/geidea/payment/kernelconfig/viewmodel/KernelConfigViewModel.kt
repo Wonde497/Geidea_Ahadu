@@ -69,16 +69,16 @@ class KernelConfigViewModel @Inject constructor(@ApplicationContext val context:
             putByteArray(EmvTerminalConstraints.MERCHANT_NAME, "Geidea Fintech".toByteArray())
 
             // EMV TAG 9F1A Len 4
-            putByteArray(EmvTerminalConstraints.TERMINAL_COUNTRY_CODE, "0966".toByteArray())
+            putByteArray(EmvTerminalConstraints.TERMINAL_COUNTRY_CODE, "0231".toByteArray())
 
             // EMV TAG 5F2A Len 4
-            putByteArray(EmvTerminalConstraints.TRANS_CURRENCY_CODE, "0682".toByteArray())
+            putByteArray(EmvTerminalConstraints.TRANS_CURRENCY_CODE, "0230".toByteArray())
 
             // EMV TAG 5F36 Len 2
             putByteArray(EmvTerminalConstraints.TRANS_CURRENCY_EXP, "02".toByteArray())
 
             // EMV TAG 9F3C Len 4
-            putByteArray(EmvTerminalConstraints.TRANS_REFER_CURRENCY_CODE, "0682".toByteArray())
+            putByteArray(EmvTerminalConstraints.TRANS_REFER_CURRENCY_CODE, "0230".toByteArray())
 
             // EMV TAG 9F3D Len 2
             putByteArray(EmvTerminalConstraints.TRANS_REFER_CURRENCY_EXP, "02".toByteArray())
