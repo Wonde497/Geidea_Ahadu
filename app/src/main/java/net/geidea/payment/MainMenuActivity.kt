@@ -1,5 +1,6 @@
 package net.geidea.payment
 
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -8,6 +9,9 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import android.view.Gravity
+import android.view.Window
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -18,6 +22,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import net.geidea.payment.databinding.ActivityMainMenuBinding
 import net.geidea.payment.help.HelpMainActivity
 import net.geidea.payment.login.LoginMainActivity
+import net.geidea.payment.users.cashier.CashierMainActivity
 
 @AndroidEntryPoint
 class MainMenuActivity : AppCompatActivity() {
@@ -61,6 +66,10 @@ class MainMenuActivity : AppCompatActivity() {
         setUpCardViewListeners()
         // Set up ViewPager
         setupViewPager()
+
+        // Set onClickListeners for ImageButtons
+        setUpImageButtonListeners()
+
     }
 
     // Function to handle navigation item clicks
@@ -92,8 +101,11 @@ class MainMenuActivity : AppCompatActivity() {
         }
     }
     private fun setUpCardViewListeners() {
+        binding.topCardView.setOnClickListener {
+           showTransactionBottomSheet()
+        }
         binding.cardView1.setOnClickListener {
-            Toast.makeText(this, "CardView 1 clicked", Toast.LENGTH_SHORT).show()
+            //Toast.makeText(this, "CardView 1 clicked", Toast.LENGTH_SHORT).show()
             sharedPreferences=getSharedPreferences("SHARED_DATA", Context.MODE_PRIVATE)
             val intent = Intent(this@MainMenuActivity, LoginMainActivity::class.java)
             startActivity(intent)
@@ -102,17 +114,53 @@ class MainMenuActivity : AppCompatActivity() {
         binding.cardView2.setOnClickListener {
             editor.putString("TXN_TYPE","PURCHASE")
             editor.commit()
-            Toast.makeText(this, "CardView 2 clicked", Toast.LENGTH_SHORT).show()
+           // Toast.makeText(this, "CardView 2 clicked", Toast.LENGTH_SHORT).show()
             val intent = Intent(this@MainMenuActivity, MainActivity::class.java)
             startActivity(intent)
         }
 
         binding.cardView3.setOnClickListener {
-            Toast.makeText(this, "CardView 3 clicked", Toast.LENGTH_SHORT).show()
+           // Toast.makeText(this, "CardView 3 clicked", Toast.LENGTH_SHORT).show()
+            sharedPreferences=getSharedPreferences("SHARED_DATA", Context.MODE_PRIVATE)
+            val intent = Intent(this@MainMenuActivity, CashierMainActivity::class.java)
+            startActivity(intent)
         }
 
         binding.cardView4.setOnClickListener {
-            Toast.makeText(this, "CardView 4 clicked", Toast.LENGTH_SHORT).show()
+            //Toast.makeText(this, "CardView 4 clicked", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this@MainMenuActivity, HelpMainActivity::class.java)
+            startActivity(intent)
+        }
+    }
+
+    // Set onClickListeners for ImageButtons
+    private fun setUpImageButtonListeners() {
+        binding.transactionsImagebtn.setOnClickListener {
+           showTransactionBottomSheet()
+        }
+
+        binding.mainMenuLogin.setOnClickListener {
+            sharedPreferences=getSharedPreferences("SHARED_DATA", Context.MODE_PRIVATE)
+            val intent = Intent(this@MainMenuActivity, LoginMainActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.mainMenuSale.setOnClickListener {
+            editor.putString("TXN_TYPE","PURCHASE")
+            editor.commit()
+            //Toast.makeText(this, "CardView 2 clicked", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this@MainMenuActivity, MainActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.mainMenuCashier.setOnClickListener {
+            sharedPreferences=getSharedPreferences("SHARED_DATA", Context.MODE_PRIVATE)
+            val intent = Intent(this@MainMenuActivity, CashierMainActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.mainMenuHelp.setOnClickListener {
+            sharedPreferences=getSharedPreferences("SHARED_DATA", Context.MODE_PRIVATE)
             val intent = Intent(this@MainMenuActivity, HelpMainActivity::class.java)
             startActivity(intent)
         }
@@ -132,5 +180,28 @@ class MainMenuActivity : AppCompatActivity() {
             }
         }
         handler.postDelayed(runnable, 2000)
+    }
+
+
+    private fun showTransactionBottomSheet() {
+        val dialog = Dialog(this)
+        try {
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+            dialog.window?.setBackgroundDrawableResource(R.drawable.dialog_background)
+            dialog.setContentView(R.layout.dialog_transactions)
+            val window = dialog.window
+            window?.let {
+                val layoutParams = WindowManager.LayoutParams()
+                layoutParams.copyFrom(it.attributes)
+                layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT
+                layoutParams.height = (resources.displayMetrics.heightPixels * 0.7).toInt()
+                layoutParams.gravity = Gravity.BOTTOM
+                it.attributes = layoutParams
+            }
+
+            dialog.show()
+        } catch (e: Exception) {
+            Log.e("DialogError", "Failed to create or show dialog", e)
+        }
     }
 }

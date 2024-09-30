@@ -16,7 +16,7 @@
 
             <include
                 android:id="@+id/toolbar"
-                layout="@layout/toolbar_main" />
+                layout="@layout/cashier_toolbar" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -50,6 +50,7 @@
                             android:layout_width="64dp"
                             android:layout_height="64dp"
                             android:layout_gravity="center"
+                            android:src="@drawable/key_32px"
                             android:background="@color/ahadu_red1"
                             tools:ignore="SpeakableTextPresentCheck" />
 
@@ -88,6 +89,7 @@
                             android:layout_width="64dp"
                             android:layout_height="64dp"
                             android:layout_gravity="center"
+                            android:src="@drawable/pos_32px"
                             android:background="@color/ahadu_red1"
                             tools:ignore="SpeakableTextPresentCheck" />
 
@@ -126,6 +128,7 @@
                             android:layout_width="64dp"
                             android:layout_height="64dp"
                             android:layout_gravity="center"
+                            android:src="@drawable/report2_32px"
                             android:background="@color/ahadu_red1"
                             tools:ignore="SpeakableTextPresentCheck" />
 
@@ -164,6 +167,7 @@
                             android:layout_width="64dp"
                             android:layout_height="64dp"
                             android:layout_gravity="center"
+                            android:src="@drawable/pos_print"
                             android:background="@color/ahadu_red1"
                             tools:ignore="SpeakableTextPresentCheck" />
 
@@ -202,6 +206,7 @@
                             android:layout_width="64dp"
                             android:layout_height="64dp"
                             android:layout_gravity="center"
+                            android:src="@drawable/settlement_32px"
                             android:background="@color/ahadu_red1"
                             tools:ignore="SpeakableTextPresentCheck" />
 
@@ -240,6 +245,7 @@
                             android:layout_width="64dp"
                             android:layout_height="64dp"
                             android:layout_gravity="center"
+                            android:src="@drawable/reset_password"
                             android:background="@color/ahadu_red1"
                             tools:ignore="SpeakableTextPresentCheck" />
 

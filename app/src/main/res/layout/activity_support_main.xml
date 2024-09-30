@@ -16,7 +16,7 @@
 
             <include
                 android:id="@+id/toolbar"
-                layout="@layout/toolbar_main" />
+                layout="@layout/support_toolbar" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -26,7 +26,7 @@
 
                 <!-- Manage Cashier CardView -->
                 <androidx.cardview.widget.CardView
-                    android:id="@+id/support_manage_cashier"
+                    android:id="@+id/support_manage_supervisors"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_margin="10dp"
@@ -50,13 +50,14 @@
                             android:layout_width="64dp"
                             android:layout_height="64dp"
                             android:layout_gravity="center"
+                            android:src="@drawable/manage_user"
                             android:background="@color/ahadu_red1"
                             tools:ignore="SpeakableTextPresentCheck" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Manage Cashier"
+                            android:text="Manage Supervisors"
                             android:textAlignment="center"
                             android:textColor="@color/white" />
                     </LinearLayout>
@@ -73,7 +74,7 @@
                     app:cardBackgroundColor="@color/ahadu_red1"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/support_manage_cashier"
+                    app:layout_constraintStart_toEndOf="@id/support_manage_supervisors"
                     app:layout_constraintWidth_percent="0.45"
                     app:layout_constraintHeight_percent="0.2">
 
@@ -88,6 +89,7 @@
                             android:layout_width="64dp"
                             android:layout_height="64dp"
                             android:layout_gravity="center"
+                            android:src="@drawable/pos_32px"
                             android:background="@color/ahadu_red1"
                             tools:ignore="SpeakableTextPresentCheck" />
 
@@ -109,7 +111,7 @@
                     app:cardElevation="20dp"
                     app:cardCornerRadius="20dp"
                     app:cardBackgroundColor="@color/ahadu_red1"
-                    app:layout_constraintTop_toBottomOf="@id/support_manage_cashier"
+                    app:layout_constraintTop_toBottomOf="@id/support_manage_supervisors"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/support_settings"
                     app:layout_constraintWidth_percent="0.45"
@@ -126,6 +128,7 @@
                             android:layout_width="64dp"
                             android:layout_height="64dp"
                             android:layout_gravity="center"
+                            android:src="@drawable/pos_print"
                             android:background="@color/ahadu_red1"
                             tools:ignore="SpeakableTextPresentCheck" />
 
@@ -164,6 +167,7 @@
                             android:layout_width="64dp"
                             android:layout_height="64dp"
                             android:layout_gravity="center"
+                            android:src="@drawable/settings_32px"
                             android:background="@color/ahadu_red1"
                             tools:ignore="SpeakableTextPresentCheck" />
 
@@ -202,6 +206,7 @@
                             android:layout_width="64dp"
                             android:layout_height="64dp"
                             android:layout_gravity="center"
+                            android:src="@drawable/report2_32px"
                             android:background="@color/ahadu_red1"
                             tools:ignore="SpeakableTextPresentCheck" />
 
@@ -240,6 +245,7 @@
                             android:layout_width="64dp"
                             android:layout_height="64dp"
                             android:layout_gravity="center"
+                            android:src="@drawable/pos_print"
                             android:background="@color/ahadu_red1"
                             tools:ignore="SpeakableTextPresentCheck" />
 
@@ -278,6 +284,7 @@
                             android:layout_width="64dp"
                             android:layout_height="64dp"
                             android:layout_gravity="center"
+                            android:src="@drawable/settlement_32px"
                             android:background="@color/ahadu_red1"
                             tools:ignore="SpeakableTextPresentCheck" />
 
@@ -308,14 +315,15 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        android:gravity="center">
+                        android:gravity="center"
+                        android:orientation="vertical">
 
                         <ImageButton
                             android:id="@+id/support_help_icon"
                             android:layout_width="64dp"
                             android:layout_height="64dp"
                             android:layout_gravity="center"
+                           android:src="@drawable/baseline_help_center_32"
                             android:background="@color/ahadu_red1"
                             tools:ignore="SpeakableTextPresentCheck" />
 

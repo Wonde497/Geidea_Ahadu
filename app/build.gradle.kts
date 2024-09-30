@@ -80,4 +80,12 @@ dependencies {
     implementation("com.google.firebase:firebase-crashlytics")
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-database:21.0.0")
+
+    //..........................Added by Amlakie.....................
+    // Jetpack Compose UI Dependencies
+    implementation ("androidx.compose.ui:ui:1.5.0")                   // Compose UI
+    implementation ("androidx.compose.material:material:1.5.0")       // Material Design
+    implementation ("androidx.compose.ui:ui-tooling-preview:1.5.0")   // Preview support
+    implementation ("androidx.activity:activity-compose:1.7.2")       // Compose support for Activity
+
 }

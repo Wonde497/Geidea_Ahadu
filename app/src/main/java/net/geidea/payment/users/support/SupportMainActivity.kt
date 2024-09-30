@@ -1,4 +1,4 @@
-package net.geidea.payment.users
+package net.geidea.payment.users.support
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,7 +8,6 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
-import com.pos.sdk.security.PedKcvInfo
 import dagger.hilt.android.AndroidEntryPoint
 import net.geidea.payment.R
 import net.geidea.payment.databinding.ActivitySupportMainBinding
@@ -80,7 +79,7 @@ class SupportMainActivity : AppCompatActivity() {
     }
 
     private fun setUpCardViewListeners() {
-        binding.supportManageCashier.setOnClickListener {
+        binding.supportManageSupervisors.setOnClickListener {
             Toast.makeText(this, "Manage Cashier clicked", Toast.LENGTH_SHORT).show()
            // val intent = Intent(this, ManageCashierActivity::class.java)
           //  startActivity(intent)

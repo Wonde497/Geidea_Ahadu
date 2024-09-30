@@ -54,11 +54,19 @@
                         android:layout_height="match_parent"
                         android:orientation="vertical"
                         android:gravity="center">
+                        <ImageButton
+                            android:id="@+id/transactionsImagebtn"
+                            android:layout_width="64dp"
+                            android:layout_height="64dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/transaction_64px"
+                            android:background="@color/ahadu_red1"
+                            tools:ignore="SpeakableTextPresentCheck" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Powered by SSC"
+                            android:text="Transactions"
                             android:textSize="20dp"
                             android:textStyle="bold"
                             android:textAlignment="center"
@@ -90,7 +98,7 @@
                         android:gravity="center">
 
                         <ImageButton
-                            android:id="@+id/sale1"
+                            android:id="@+id/main_menu_login"
                             android:layout_width="60dp"
                             android:layout_height="64dp"
                             android:layout_gravity="center"
@@ -130,7 +138,7 @@
                         android:gravity="center">
 
                         <ImageButton
-                            android:id="@+id/sale2"
+                            android:id="@+id/main_menu_sale"
                             android:layout_width="64dp"
                             android:layout_height="64dp"
                             android:layout_gravity="center"
@@ -170,7 +178,7 @@
                         android:gravity="center">
 
                         <ImageButton
-                            android:id="@+id/sale3"
+                            android:id="@+id/main_menu_cashier"
                             android:layout_width="64dp"
                             android:layout_height="64dp"
                             android:layout_gravity="center"
@@ -210,7 +218,7 @@
                         android:gravity="center">
 
                         <ImageButton
-                            android:id="@+id/sale4"
+                            android:id="@+id/main_menu_help"
                             android:layout_width="64dp"
                             android:layout_height="64dp"
                             android:layout_gravity="center"
@@ -231,6 +239,11 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
+        <androidx.compose.ui.platform.ComposeView
+            android:id="@+id/composeView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"/>
 
         <com.google.android.material.navigation.NavigationView
             android:id="@+id/navigation_view"
@@ -242,4 +255,5 @@
             app:itemTextColor="@color/ahadu_red1" />
 
     </androidx.drawerlayout.widget.DrawerLayout>
+
 </layout>

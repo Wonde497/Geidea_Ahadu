@@ -3,15 +3,14 @@ package net.geidea.payment.login
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import android.widget.ArrayAdapter
-import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import net.geidea.payment.users.AdminMainActivity
-import net.geidea.payment.users.CashierMainActivity
-import net.geidea.payment.users.SupportMainActivity
+import net.geidea.payment.users.admin.AdminMainActivity
+import net.geidea.payment.users.cashier.CashierMainActivity
+import net.geidea.payment.users.support.SupportMainActivity
 import net.geidea.payment.databinding.ActivityLoginBinding
+import net.geidea.payment.users.supervisor.SupervisorMainActivity
 
 class LoginMainActivity : AppCompatActivity() {
 
@@ -37,7 +36,7 @@ class LoginMainActivity : AppCompatActivity() {
     }
 
     private fun setupUserTypeSpinner() {
-        val userTypes = arrayOf("Admin", "Support", "Cashier")
+        val userTypes = arrayOf("Admin", "Support","Supervisor", "Cashier")
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, userTypes)
         binding.userTypeSpinner.adapter = adapter
     }
@@ -52,11 +51,13 @@ class LoginMainActivity : AppCompatActivity() {
             return
         }
 
-        // For simplicity, a basic validation is used here
+        // Hard coded login sample
         if (username == "admin" && password == "password" && userType == "Admin") {
             navigateToActivity(AdminMainActivity::class.java)
         } else if (username == "support" && password == "password" && userType == "Support") {
             navigateToActivity(SupportMainActivity::class.java)
+        } else if (username == "supervisor" && password == "password" && userType == "Supervisor") {
+            navigateToActivity(SupervisorMainActivity::class.java)
         } else if (username == "cashier" && password == "password" && userType == "Cashier") {
             navigateToActivity(CashierMainActivity::class.java)
         } else {

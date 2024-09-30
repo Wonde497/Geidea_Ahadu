@@ -78,22 +78,25 @@
             android:name=".help.HelpMainActivity"
             android:exported="false" />
         <activity
-            android:name=".users.AdminMainActivity"
+            android:name=".users.admin.AdminMainActivity"
             android:exported="false" />
         <activity
-            android:name=".users.CashierMainActivity"
+            android:name=".users.admin.AdminManageSupportActivity"
             android:exported="false" />
         <activity
-            android:name=".users.Hilt_AdminMainActivity"
+            android:name=".users.cashier.CashierMainActivity"
             android:exported="false" />
         <activity
-            android:name=".users.Hilt_CashierMainActivity"
+            android:name=".users.supervisor.SupervisorMainActivity"
             android:exported="false" />
         <activity
-            android:name=".users.Hilt_SupportMainActivity"
+            android:name=".users.supervisor.SupervisorManageCashierActivity"
             android:exported="false" />
         <activity
-            android:name=".users.SupportMainActivity"
+            android:name=".users.support.SupportMainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".users.support.SupportManageSupervisorActivity"
             android:exported="false" />
         <activity
             android:name=".login.LoginMainActivity"

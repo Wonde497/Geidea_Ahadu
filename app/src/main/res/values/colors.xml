@@ -5,6 +5,9 @@
     <color name="background_color">#F2F4F7</color>
     <color name="primary">#FF6600</color>
     <color name="grey_card_background">#FFFFFF</color>
+    <color name="grey_card_backgrounds">#FFFFFF</color>
+    <color name="gray_btn_bg_color">#D0D0D0</color>
+    <color name="green_btn_bg_color">#09af00</color>
     <color name="white_round_background">#F1F1F1</color>
     <color name="colorPrimary_20">#33008577</color>
     <color name="primary_text_light">@android:color/primary_text_light</color>

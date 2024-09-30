@@ -13,12 +13,12 @@
         <item
             android:id="@+id/nav_manage_cashier"
             android:icon="@drawable/baseline_account_circle_24"
-            android:title="Manage Supervisor"
+            android:title="Manage Cashier"
             />
         <item
             android:id="@+id/nav_terminal_info"
             android:icon="@drawable/baseline_point_of_sale_24"
-            android:title="Configure Terminal"
+            android:title="Terminal Info"
             />
         <item
             android:id="@+id/nav_settings"
