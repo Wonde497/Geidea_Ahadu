@@ -87,5 +87,4 @@ dependencies {
     implementation ("androidx.compose.material:material:1.5.0")       // Material Design
     implementation ("androidx.compose.ui:ui-tooling-preview:1.5.0")   // Preview support
     implementation ("androidx.activity:activity-compose:1.7.2")       // Compose support for Activity
-
 }
