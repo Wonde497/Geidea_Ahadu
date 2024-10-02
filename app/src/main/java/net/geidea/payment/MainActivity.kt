@@ -57,7 +57,7 @@ class MainActivity : AppCompatActivity() {
         }
         navItemCLickListener()
 
-    }
+     }
 
     private fun openPrintNtimesScreen() {
         val intent = Intent(this@MainActivity, PrintNTimesActivity::class.java)
