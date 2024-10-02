@@ -81,6 +81,36 @@ class TransData(private val context:Context) {
 
 
     }
+    class ResponseFields{
+        companion object{
+
+            var MTI=""
+            var primaryBitmap=""
+            var Field02=""
+            var Field03=""
+            var Field04=""
+            var Field07=""
+            var Field11=""
+            var Field12=""
+            var Field14=""
+            var Field22=""
+            var Field24="200"
+            var Field25="00"
+            var Field35=""
+            var Field37=""
+            var Field38=""
+            var Field39=""
+            var Field41=""
+            var Field42=""
+            var Field49=""
+            var Field52=""
+            var Field55=""
+
+        }
+
+
+
+    }
     fun assignValue2Fields(){
         if(txnType.equals("PURCHASE")){
        Log.d(TAG,"txn type"+txnType)
@@ -89,6 +119,7 @@ class TransData(private val context:Context) {
         if(txnType.equals("REVERSAL")){
             RequestFields.MTI="0400"
             RequestFields.primaryBitmap="7230058028C08200"
+            RequestFields.Field24="400"
         }
 
         RequestFields.primaryBitmap="7234058020C09200"//bitmap for online pin
@@ -281,6 +312,24 @@ class TransData(private val context:Context) {
 
         return result
     }
+    val responseMessage="30323130723000000E808000313939323331343134313539343130363330373536303030303030303030303030303030323030303232353133333033373030303134363136303232353037323834363030303133383834383631343834383631343030305030303030303032323330"
+    fun unpackResponseFields(responseMessage: String) {
+        ResponseFields.MTI = responseMessage.substring(0, 8)
+        val MTI = hex2Asc(ResponseFields.MTI)
+        println("mti string: $MTI")
+
+        ResponseFields.primaryBitmap = responseMessage.substring(8, 24)
+        println("primarybitmap : ${ResponseFields.primaryBitmap}")
+
+        val responseBody = hex2Asc(responseMessage.substring(24))
+        println("responsebody : $responseBody")
+
+        val binaryBitmap1 = hex2Binary(ResponseFields.primaryBitmap)
+        println("binarybitmap1 : $binaryBitmap1")
+
+        assignValue2ResponseFields(binaryBitmap1, responseBody)
+    }
+
 
 
     fun fillGapSequence(data: String, size: Int): String {
@@ -290,5 +339,110 @@ class TransData(private val context:Context) {
         }
         return result
     }
+
+    fun assignValue2ResponseFields(binaryBitmap: String, responseBody: String) {
+        var n = 0
+        var prefix = ""
+        val charArray = binaryBitmap.toCharArray()
+        val strArrayBitmap = Array(charArray.size) { i -> charArray[i].toString() }
+
+        println("binaryBitmap1 : ${strArrayBitmap[1]}")
+
+        for (i in 0 until 64) {
+            if (strArrayBitmap[i] == "1") {
+                val j = i + 1
+                println("bitmap available : $j")
+                when (j) {
+                    2 -> {
+                        prefix = responseBody.substring(0, 2)
+                        println("prefix: $prefix")
+                        val num = prefix.toInt()
+                        n += 2
+                        ResponseFields.Field02 = responseBody.substring(n, n + num)
+                        Log.d(TAG, "field02: ${ResponseFields.Field02}")
+                        n += num
+                    }
+                    3 -> {
+                        ResponseFields.Field03 = responseBody.substring(n, n + 6)
+                        Log.d(TAG, "field03: ${ResponseFields.Field03}")
+                        n += 6
+                    }
+                    4 -> {
+                        ResponseFields.Field04 = responseBody.substring(n, n + 12)
+                        Log.d(TAG, "field04: ${ResponseFields.Field04}")
+                        n += 12
+                    }
+                    7 -> {
+                        ResponseFields.Field07 = responseBody.substring(n, n + 10)
+                        Log.d(TAG, "field07: ${ResponseFields.Field07}")
+                        n += 10
+                    }
+                    11 -> {
+                        ResponseFields.Field11 = responseBody.substring(n, n + 6)
+                        Log.d(TAG, "field11: ${ResponseFields.Field11}")
+                        n += 6
+                    }
+                    12 -> {
+                        ResponseFields.Field12 = responseBody.substring(n, n + 12)
+                        Log.d(TAG, "field12: ${ResponseFields.Field12}")
+                        n += 12
+                    }
+                    37 -> {
+                        ResponseFields.Field37 = responseBody.substring(n, n + 12)
+                        Log.d(TAG, "field37: ${ResponseFields.Field37}")
+                        n += 12
+                    }
+                    38 -> {
+                        ResponseFields.Field38 = responseBody.substring(n, n + 6)
+                        Log.d(TAG, "field38: ${ResponseFields.Field38}")
+                        n += 6
+                    }
+                    39 -> {
+                        ResponseFields.Field39 = responseBody.substring(n, n + 3)
+                        Log.d(TAG, "field39: ${ResponseFields.Field39}")
+                        n += 3
+                    }
+                    41 -> {
+                        ResponseFields.Field41 = responseBody.substring(n, n + 8)
+                        Log.d(TAG, "field41: ${ResponseFields.Field41}")
+                        n += 8
+                    }
+                    49 -> {
+                        ResponseFields.Field49 = responseBody.substring(n, n + 3)
+                        Log.d(TAG, "field49: ${ResponseFields.Field49}")
+                        n += 3
+                    }
+                    55 -> {
+                        prefix = responseBody.substring(n, n + 3)
+                        println("prefix: $prefix")
+                        val num = prefix.toInt()
+                        n += 3
+                        ResponseFields.Field55 = responseBody.substring(n, n + num)
+                        Log.d(TAG, "field55: ${ResponseFields.Field55}")
+                    }
+                }
+            }
+        }
+    }
+    fun hex2Binary(hexString: String): String {
+        val binary = StringBuilder()
+        for (i in hexString.indices) {
+            val hexChar = hexString[i]
+            val binaryString = Integer.toBinaryString(Integer.parseInt(hexChar.toString(), 16))
+            binary.append(String.format("%4s", binaryString).replace(' ', '0'))
+        }
+        return binary.toString()
+    }
+
+    fun hex2Asc(hexString: String): String {
+        val output = StringBuilder()
+        for (i in hexString.indices step 2) {
+            val hex = hexString.substring(i, i + 2)
+            output.append(hex.toInt(16).toChar())
+        }
+        return output.toString()
+    }
+
+
 
 }

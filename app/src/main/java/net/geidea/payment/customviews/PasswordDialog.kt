@@ -3,6 +3,7 @@ package net.geidea.payment.customviews
 import android.app.Activity
 import android.app.Dialog
 import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.os.Handler
@@ -83,6 +84,7 @@ class PasswordDialog(
     private val pinPadListener: PinPadListener?
     private val context: Context
     private var isPinTimeout = false
+    private lateinit var sharedPreferences: SharedPreferences
 
     init {
         hsmManage = POIHsmManage.getDefault()
@@ -144,6 +146,7 @@ class PasswordDialog(
         btn7 = view.findViewById(R.id.btn7)
         btn8 = view.findViewById(R.id.btn8)
         btn9 = view.findViewById(R.id.btn9)
+        sharedPreferences=context.getSharedPreferences("SHARED_DATA",Context.MODE_PRIVATE)
 
         val totalAmountEng: TextView = view.findViewById(R.id.total_amount_eng)
         val headerInEng: AppCompatTextView = view.findViewById(R.id.eng_title)
@@ -158,7 +161,7 @@ class PasswordDialog(
         headerInEng.text = engTitle
 
 
-        totalAmountEng.text = CurrencyConverter.convert(amount)
+        totalAmountEng.text =sharedPreferences.getString("Currency","")+CurrencyConverter.convertWithoutSAR(amount)
 
 
 
@@ -249,7 +252,7 @@ class PasswordDialog(
         return hsmManage.PedGetPinBlock(
             keyMode,
             keyIndex,
-            PED_PINBLOCK_TPK_FMT_ISO9564_0,
+            PED_PINBLOCK_DUKPT_FMT_ISO9564_0,//PED_PINBLOCK_TPK_FMT_ISO9564_0,
             DEFAULT_TIMEOUT_MS,
             data,
             DEFAULT_EXP_PIN_LEN_IND

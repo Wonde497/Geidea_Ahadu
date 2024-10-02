@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import net.geidea.payment.DBHandler
 import net.geidea.payment.users.admin.AdminMainActivity
 import net.geidea.payment.users.cashier.CashierMainActivity
 import net.geidea.payment.users.support.SupportMainActivity
@@ -15,6 +16,7 @@ import net.geidea.payment.users.supervisor.SupervisorMainActivity
 class LoginMainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
+    private var dbHandler= DBHandler(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,7 +54,7 @@ class LoginMainActivity : AppCompatActivity() {
         }
 
         // Hard coded login sample
-        if (username == "admin" && password == "password" && userType == "Admin") {
+        if (dbHandler.isAdminExists(username,password) && userType == "Admin") {
             navigateToActivity(AdminMainActivity::class.java)
         } else if (username == "support" && password == "password" && userType == "Support") {
             navigateToActivity(SupportMainActivity::class.java)

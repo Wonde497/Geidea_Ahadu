@@ -9,7 +9,11 @@
             name="viewModel"
             type="net.geidea.payment.transaction.viewmodel.CardReadViewModel" />
     </data>
-
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="@color/background_color">
     <LinearLayout
         android:id="@+id/main_container"
         android:layout_width="match_parent"
@@ -207,4 +211,5 @@
 
 
     </LinearLayout>
+</ScrollView>
 </layout>

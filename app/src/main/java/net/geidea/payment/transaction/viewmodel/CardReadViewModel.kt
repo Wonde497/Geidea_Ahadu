@@ -24,6 +24,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import net.geidea.payment.utils.AC
 import net.geidea.payment.BuildConfig
+import net.geidea.payment.DBHandler
 import net.geidea.payment.utils.CARD_AID
 import net.geidea.payment.utils.CID
 import net.geidea.payment.utils.CVM_PERFORMED_DC_TAG
@@ -63,6 +64,8 @@ class CardReadViewModel @Inject constructor(@ApplicationContext val context: Con
     ViewModel() {
     private val tag = CardReadViewModel::class.java.simpleName
     private val emvCoreManager = POIEmvCoreManager.getDefault()
+    private val dbhandler=DBHandler(context)
+    private val sharedPreferences=context.getSharedPreferences("SHARED_DATA",Context.MODE_PRIVATE)
     private val emvCoreListener = POIEmvCoreListener()
     private lateinit var entryMode: EntryMode
     private val printerManager: POIPrinterManager by lazy { POIPrinterManager(context) }
@@ -724,17 +727,17 @@ class CardReadViewModel @Inject constructor(@ApplicationContext val context: Con
     private fun setReceiptHeader(
     ) {
         FirebaseDatabaseSingleton.setLog("setReceiptHeader")
-        var bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.geidea_emblem)
+        var bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.ahadu_logo1)
         printerManager.addPrintLine(BitmapPrintLine(bitmap, PrintLine.CENTER))
 
         printerManager.addPrintLine(
             TextPrintLine(
-                "Geidea", PrintLine.CENTER, 20, false
+                "Ahadu", PrintLine.CENTER, 20, false
             )
         )
         printerManager.addPrintLine(
             TextPrintLine(
-                "CANARY CENTER, 7304 PRINCE ABDULAZIZ IBN MUSAID AS SULIMANIYAH DISTRICT 12243 OFF#112",
+                "BEKLO BET,ADDIS ABABA",//"CANARY CENTER, 7304 PRINCE ABDULAZIZ IBN MUSAID AS SULIMANIYAH DISTRICT 12243 OFF#112",
                 PrintLine.CENTER,
                 16,
                 false
@@ -745,10 +748,10 @@ class CardReadViewModel @Inject constructor(@ApplicationContext val context: Con
                 "1/F, Riyadh Saudi Arabia", PrintLine.CENTER, 16, false
             )
         )
-
+//TID:30102023
         printerManager.addPrintLine(
             Printer.printList(
-                "POS ID : 30102023", "", "MID : 30102023", 16, false
+                "POS ID :${dbhandler.getTID()}", "", "MID : ${dbhandler.getMID()}", 16, false
             )
         )
 
@@ -788,7 +791,7 @@ class CardReadViewModel @Inject constructor(@ApplicationContext val context: Con
         )
         printerManager.addPrintLine(
             TextPrintLine(
-                maskPan(maskPan(transData.pan)), PrintLine.LEFT, 20, true
+                maskPan(maskPan(transData.pan.substringBefore("F"))), PrintLine.LEFT, 20, true
             )
         )
 
@@ -811,7 +814,7 @@ class CardReadViewModel @Inject constructor(@ApplicationContext val context: Con
         printerManager.addBlankView(1)
         printerManager.addPrintLine(
             printList(
-                "AMOUNT", "SAR", CurrencyConverter.convertWithoutSAR(transData.amount), 20, true
+                "AMOUNT", sharedPreferences.getString("Currency","").toString(), CurrencyConverter.convertWithoutSAR(transData.amount), 20, true
 
             )
         )

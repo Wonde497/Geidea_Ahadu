@@ -12,6 +12,7 @@ import android.util.Log
 import android.view.Gravity
 import android.view.Window
 import android.view.WindowManager
+import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -189,6 +190,20 @@ class MainMenuActivity : AppCompatActivity() {
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
             dialog.window?.setBackgroundDrawableResource(R.drawable.dialog_background)
             dialog.setContentView(R.layout.dialog_transactions)
+            val saleBtn=dialog.findViewById <ImageButton>(R.id.transaction_sale_icon)
+            val reversalBtn=dialog.findViewById<ImageButton>(R.id.transaction_reversal_icon)
+            saleBtn.setOnClickListener {
+                editor.putString("TXN_TYPE","PURCHASE")
+                editor.commit()
+                startActivity(Intent(this,MainActivity::class.java))
+            }
+            reversalBtn.setOnClickListener {
+                editor.putString("TXN_TYPE","REVERSAL")
+                editor.commit()
+                Toast.makeText(this,"NO TXN RECORDED !",Toast.LENGTH_SHORT).show()
+
+            }
+
             val window = dialog.window
             window?.let {
                 val layoutParams = WindowManager.LayoutParams()
