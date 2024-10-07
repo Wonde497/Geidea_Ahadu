@@ -17,6 +17,8 @@ class DBHandler(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, nul
         private const val TABLE_MERCHANT_NAME ="merchantName"
         private const val TABLE_MERCHANT_ADDRESS ="merchantAddress"
         private const val TABLE_TXN_DATA ="txn_data_table"
+        private const val TABLE_COM_CONFIG ="comConfigTable"
+
         //private const val TABLE_ADMIN ="admintable"
         //private const val TABLE_ADMIN ="admintable"
         //private const val TABLE_ADMIN ="admintable"
@@ -50,6 +52,8 @@ class DBHandler(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, nul
         private const val COLUMN_FIELD49 ="field49"
         private const val COLUMN_FIELD52 ="field52"
         private const val COLUMN_FIELD55 ="field55"
+        private const val COLUMN_IP ="ip"
+        private const val COLUMN_PORT_NO ="portNumber"
         //Queries to create table
         private const val CREATE_ADMIN =
             "CREATE TABLE $TABLE_ADMIN (" +
@@ -101,6 +105,11 @@ class DBHandler(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, nul
                     "$COLUMN_FIELD49 TEXT,"+
                     "$COLUMN_FIELD52 TEXT,"+
                     "$COLUMN_FIELD55 TEXT)"
+        private const val CREATE_COM_CONFIG =
+            "CREATE TABLE $TABLE_COM_CONFIG (" +
+                    "$COLUMN_ID INTEGER PRIMARY KEY," +
+                    "$COLUMN_IP TEXT," +
+                    "$COLUMN_PORT_NO TEXT)"
 
 //Queries to delete table
         private const val DELETE_ADMIN = "DROP TABLE IF EXISTS $TABLE_ADMIN"
@@ -109,6 +118,7 @@ class DBHandler(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, nul
         private const val DELETE_MERCHANT_NAME = "DROP TABLE IF EXISTS $TABLE_MERCHANT_NAME"
         private const val DELETE_MERCHANT_ADDRESS = "DROP TABLE IF EXISTS $TABLE_MERCHANT_ADDRESS"
         private const val DELETE_TXN_DATA = "DROP TABLE IF EXISTS $TABLE_TXN_DATA"
+        private const val DELETE_COM_CONFIG = "DROP TABLE IF EXISTS $TABLE_COM_CONFIG"
 
     }
     override fun onCreate(db: SQLiteDatabase?) {
@@ -119,6 +129,8 @@ class DBHandler(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, nul
             db.execSQL(CREATE_MERCHANT_NAME)
             db.execSQL(CREATE_MERCHANT_ADDRESS)
             db.execSQL(CREATE_TXN_DATA)
+            db.execSQL(CREATE_COM_CONFIG)
+
         }
     }
 
@@ -130,6 +142,7 @@ class DBHandler(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, nul
             db.execSQL(DELETE_MERCHANT_NAME)
             db.execSQL(DELETE_MERCHANT_ADDRESS)
             db.execSQL(DELETE_TXN_DATA)
+            db.execSQL(DELETE_COM_CONFIG)
 
 
         }
@@ -153,12 +166,60 @@ class DBHandler(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, nul
         db.insert(TABLE_TID, null, values)
         db.close()
     }
+    fun updateTID(terminalID: String) {
+        val db = this.writableDatabase
+        val values = ContentValues().apply {
+            put(COLUMN_TID, terminalID)
+        }
+        // Define the selection criteria
+        val selection = "$COLUMN_TID = ?"
+        val selectionArgs = arrayOf(terminalID)
+
+        // Update the database
+        val count = db.update(
+            TABLE_TID,
+            values,
+            selection,
+            selectionArgs
+        )
+
+        // If no rows were updated, insert the new value
+        if (count == 0) {
+            db.insert(TABLE_TID, null, values)
+        }
+
+        db.close()
+    }
     fun registerMID(merchantID:String){
         val db = this.writableDatabase
         val values = ContentValues().apply {
             put(COLUMN_MID, merchantID)
         }
         db.insert(TABLE_MID, null, values)
+        db.close()
+    }
+    fun updateMID(merchantID: String) {
+        val db = this.writableDatabase
+        val values = ContentValues().apply {
+            put(COLUMN_MID, merchantID)
+        }
+        // Define the selection criteria
+        val selection = "$COLUMN_MID = ?"
+        val selectionArgs = arrayOf(merchantID)
+
+        // Update the database
+        val count = db.update(
+            TABLE_MID,
+            values,
+            selection,
+            selectionArgs
+        )
+
+        // If no rows were updated, insert the new value
+        if (count == 0) {
+            db.insert(TABLE_MID, null, values)
+        }
+
         db.close()
     }
     fun registerMerchantName(merchantName:String){
@@ -212,6 +273,41 @@ class DBHandler(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, nul
         db.close()
 
     }
+    fun registerIPAndPortNumber(ip:String,portNumber:String) {
+        val db = this.writableDatabase
+        val values = ContentValues().apply {
+            put(COLUMN_IP, ip)
+            put(COLUMN_PORT_NO, portNumber)
+        }
+        db.insert(TABLE_COM_CONFIG, null, values)
+        db.close()
+    }
+    fun getIPAndPortNumber(): Pair<String, String>? {
+        val db = this.readableDatabase
+        val projection = arrayOf(COLUMN_IP, COLUMN_PORT_NO)
+        val cursor = db.query(
+            TABLE_COM_CONFIG,   // The table to query
+            projection,         // The columns to return
+            null,               // The columns for the WHERE clause
+            null,               // The values for the WHERE clause
+            null,               // Don't group the rows
+            null,               // Don't filter by row groups
+            null                // The sort order
+        )
+
+        var result: Pair<String, String>? = null
+        with(cursor) {
+            if (moveToFirst()) {
+                val ip = getString(getColumnIndexOrThrow(COLUMN_IP))
+                val portNumber = getString(getColumnIndexOrThrow(COLUMN_PORT_NO))
+                result = Pair(ip, portNumber)
+            }
+            close()
+        }
+        db.close()
+        return result
+    }
+
     fun checkAdmin():Boolean{
         val db = this.readableDatabase
 

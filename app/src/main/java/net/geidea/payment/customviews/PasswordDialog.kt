@@ -26,6 +26,7 @@ import com.pos.sdk.emvcore.POIEmvCoreManager.EmvPinConstraints
 import com.pos.sdk.security.POIHsmManage
 import com.pos.sdk.security.POIHsmManage.PED_PINBLOCK_TPK_FMT_ISO9564_0
 import com.pos.sdk.security.POIHsmManage.PED_PINBLOCK_DUKPT_FMT_ISO9564_0
+import com.pos.sdk.security.POIHsmManage.PED_PINBLOCK_DUKPT_FMT_ISO9564_1
 import com.pos.sdk.security.PedRsaPinKey
 import net.geidea.payment.R
 import net.geidea.payment.tlv.HexUtil
@@ -50,8 +51,8 @@ class PasswordDialog(
     private val DEFAULT_TIMEOUT_MS = 60000
     private val keyIndex: Int
 
-    // private int keyMode = POIHsmManage.PED_PINBLOCK_FETCH_MODE_TPK;
-    private val keyMode = POIHsmManage.PED_PINBLOCK_FETCH_MODE_DUKPT
+     private val keyMode = POIHsmManage.PED_PINBLOCK_FETCH_MODE_TPK;
+    //private val keyMode = POIHsmManage.PED_PINBLOCK_FETCH_MODE_DUKPT
     private var icSlot = 0
     private val isKeyboardFix = true
     private var isEncrypt = false
@@ -252,7 +253,7 @@ class PasswordDialog(
         return hsmManage.PedGetPinBlock(
             keyMode,
             keyIndex,
-            PED_PINBLOCK_DUKPT_FMT_ISO9564_0,//PED_PINBLOCK_TPK_FMT_ISO9564_0,
+            POIHsmManage.PED_PINBLOCK_TPK_FMT_ISO9564_0,// PED_PINBLOCK_DUKPT_FMT_ISO9564_0,
             DEFAULT_TIMEOUT_MS,
             data,
             DEFAULT_EXP_PIN_LEN_IND

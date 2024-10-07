@@ -87,8 +87,8 @@ class SupportMainActivity : AppCompatActivity() {
 
         binding.supportConfigTerminal.setOnClickListener {
             Toast.makeText(this, "Config Terminal clicked", Toast.LENGTH_SHORT).show()
-           // val intent = Intent(this, ConfigTerminalActivity::class.java)
-            //startActivity(intent)
+           val intent = Intent(this, CommunicationConfig::class.java)
+            startActivity(intent)
         }
 
         binding.supportTerminalInfo.setOnClickListener {

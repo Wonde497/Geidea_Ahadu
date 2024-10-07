@@ -45,6 +45,8 @@ class MainActivity : AppCompatActivity() {
     private val pedKcvInfo = PedKcvInfo(0, ByteArray(5))
 
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
@@ -104,6 +106,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.action_inject_dukpt -> {
                     ioCoroutine {
                         val result = injectDukptKey(DUKPT_INDEX, DUKPT_IPEK, DUKPT_KSN)
+                        Log.d(TAG,"kcvksn.........."+pedKcvInfo)
                         withMainContext {
                             if (result == 0) {
                                 Toast.makeText(this@MainActivity, "succeed", Toast.LENGTH_SHORT)
@@ -151,10 +154,11 @@ class MainActivity : AppCompatActivity() {
             MASTER_KEY_INDEX
         )
         if (result != 0) {
-            Log.d(
-                TAG, "injectMKSK: updateKeyMKSK PED_TMK failed"
-            )
+            Log.d(TAG, "injectMKSK: updateKeyMKSK PED_TMK failed")
             return
+        }else {
+            Log.d(TAG, "injectMKSK: updateKeyMKSK PED_TMK succeed")
+            Log.d(TAG, pedKcvInfo.toString())
         }
         // TDK: the session key which is used to encrypt data
         result = updateKeyMKSK(
@@ -169,7 +173,7 @@ class MainActivity : AppCompatActivity() {
                 TAG, "injectMKSK: updateKeyMKSK PED_TDK failed"
             )
             return
-        }
+        }else Log.d(TAG, "injectMKSK: updateKeyMKSK PED_TDK succeed")
 
         // TPK: the session key which is used to encrypt the PIN
         result = updateKeyMKSK(
@@ -185,7 +189,7 @@ class MainActivity : AppCompatActivity() {
             )
             return
         }
-        else Log.d(TAG, "injectMKSK: updateKeyMKSK PED_TAK succ")
+        else Log.d(TAG, "injectMKSK: updateKeyMKSK PED_TPK succeed")
 
 
         // TAK: the session key that is used to generate MAC for the message
@@ -201,6 +205,9 @@ class MainActivity : AppCompatActivity() {
                 TAG, "injectMKSK: updateKeyMKSK PED_TAK failed"
             )
             return
+        }else{
+            Log.d(TAG, "injectMKSK: updateKeyMKSK PED_TAK succeed")
+
         }
 
     }
@@ -235,6 +242,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun injectDukptKey(keyIndex: Int, keyData: String, ksnData: String): Int {
         val kcvInfo = PedKcvInfo(0, ByteArray(5))
+
         return POIHsmManage.getDefault().PedWriteTIK(
             keyIndex, 0, 16, HexUtil.parseHex(keyData), HexUtil.parseHex(ksnData), kcvInfo
         )
@@ -261,8 +269,11 @@ class MainActivity : AppCompatActivity() {
         protectKeyType: Int, protectKeyIndex: Int, Keydata: String, keyType: Int, keyIndex: Int
     ): Int {
      Log.d(TAG,"updateKeyMKSN clicked")
+        Log.d(TAG,"kcv1.........."+pedKcvInfo)
         val keyData = PosUtils.hexStringToBytes(Keydata)
         Log.d(TAG,"key data..."+Keydata)
+        Log.d(TAG,"keyType..."+keyType)
+        Log.d(TAG,"keyIndex..."+keyIndex)
         val mkInfo = PedKeyInfo(
             protectKeyType, protectKeyIndex, keyType, keyIndex, KEY_ALG_3DES, keyData.size, keyData
         )

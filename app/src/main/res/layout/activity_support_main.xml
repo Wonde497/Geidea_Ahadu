@@ -87,10 +87,10 @@
                         <ImageButton
                             android:id="@+id/support_config_terminal_icon"
                             android:layout_width="64dp"
-                            android:layout_height="64dp"
+                            android:layout_height="59dp"
                             android:layout_gravity="center"
-                            android:src="@drawable/pos_32px"
                             android:background="@color/ahadu_red1"
+                            android:src="@drawable/pos_32px"
                             tools:ignore="SpeakableTextPresentCheck" />
 
                         <TextView
