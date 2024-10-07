@@ -11,6 +11,7 @@ import androidx.databinding.DataBindingUtil
 import dagger.hilt.android.AndroidEntryPoint
 import net.geidea.payment.R
 import net.geidea.payment.databinding.ActivityCashierMainBinding
+import net.geidea.payment.databinding.NavHeaderBinding
 import net.geidea.payment.help.HelpMainActivity
 
 @AndroidEntryPoint
@@ -43,6 +44,9 @@ class CashierMainActivity : AppCompatActivity() {
 
         // Set up OnClickListeners for CardViews
         setUpCardViewListeners()
+
+        // Update the navigation header
+        updateNavHeader("Username: Ahadu Cashier", "User Role: Cashier")
     }
 
     // Function to handle navigation item clicks
@@ -114,5 +118,14 @@ class CashierMainActivity : AppCompatActivity() {
             // val intent = Intent(this, ChangePasswordActivity::class.java)
             // startActivity(intent)
         }
+    }
+    // Method to update the Navigation Header Texts
+    private fun updateNavHeader(username: String, userrole: String) {
+        // Get the navigation view binding for the header
+        val headerBinding = NavHeaderBinding.bind(binding.cashierNavigationView.getHeaderView(0))
+
+        // Update the username and userrole
+        headerBinding.username.text = username
+        headerBinding.userrole.text = userrole
     }
 }

@@ -14,6 +14,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import net.geidea.payment.MainActivity
 import net.geidea.payment.R
 import net.geidea.payment.databinding.ActivityAdminMainBinding
+import net.geidea.payment.databinding.NavHeaderBinding
 import net.geidea.payment.help.HelpMainActivity
 import net.geidea.payment.login.LoginMainActivity
 
@@ -48,6 +49,9 @@ class AdminMainActivity : AppCompatActivity() {
         // Set up OnClickListeners for CardViews
         setUpCardViewListeners()
 
+
+        // Update the navigation header
+        updateNavHeader("Username: Ahadu Admin", "User Role: Admin")
     }
 
     // Function to handle navigation item clicks
@@ -81,14 +85,14 @@ class AdminMainActivity : AppCompatActivity() {
 
     private fun setUpCardViewListeners() {
         binding.adminManageTransaction.setOnClickListener {
-            Toast.makeText(this, "Manage Transaction clicked", Toast.LENGTH_SHORT).show()
-            val intent = Intent(this@AdminMainActivity, LoginMainActivity::class.java)
-            startActivity(intent)
+            Toast.makeText(this, "Manage Transaction ", Toast.LENGTH_SHORT).show()
+           // val intent = Intent(this@AdminMainActivity, LoginMainActivity::class.java)
+            //startActivity(intent)
         }
 
         binding.adminManageSupport.setOnClickListener {
-            Toast.makeText(this, "Manage Support clicked", Toast.LENGTH_SHORT).show()
-            val intent = Intent(this@AdminMainActivity, MainActivity::class.java)
+           // Toast.makeText(this, "Manage Support clicked", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this@AdminMainActivity, AdminManageSupportActivity::class.java)
             startActivity(intent)
         }
 
@@ -101,6 +105,15 @@ class AdminMainActivity : AppCompatActivity() {
             val intent = Intent(this@AdminMainActivity, HelpMainActivity::class.java)
             startActivity(intent)
         }
+    }
+    // Method to update the Navigation Header Texts
+    private fun updateNavHeader(username: String, userrole: String) {
+        // Get the navigation view binding for the header
+        val headerBinding = NavHeaderBinding.bind(binding.adminNavigationView.getHeaderView(0))
+
+        // Update the username and userrole
+        headerBinding.username.text = username
+        headerBinding.userrole.text = userrole
     }
 
 }

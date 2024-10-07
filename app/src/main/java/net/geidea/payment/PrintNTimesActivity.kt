@@ -165,7 +165,7 @@ class PrintNTimesActivity : AppCompatActivity() {
                         while (!breakLoop){
                             if(hasPrinterPaper()) {
                                 isPrintFailed = false
-                                delay(3000)//wait 3 sec to load paper properly
+                                delay(3000)//wait 3 sec to load  paper properly
                                 doSamplePrint()
                                 break
                             }

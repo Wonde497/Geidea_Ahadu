@@ -113,6 +113,10 @@
         <activity
             android:name=".PrintNTimesActivity"
             android:exported="false" />
+        <activity
+            android:name=".transaction.ReversalMainActivity"
+            android:exported="false" />
+
     </application>
 
 </manifest>

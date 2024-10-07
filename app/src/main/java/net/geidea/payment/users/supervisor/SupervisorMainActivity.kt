@@ -1,5 +1,6 @@
 package net.geidea.payment.users.supervisor
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -11,6 +12,8 @@ import com.google.android.material.navigation.NavigationView
 import net.geidea.payment.R
 import net.geidea.payment.databinding.ActivityAdminManageSupportBinding
 import net.geidea.payment.databinding.ActivitySupervisorMainBinding
+import net.geidea.payment.databinding.NavHeaderBinding
+import net.geidea.payment.users.admin.AdminManageSupportActivity
 
 class SupervisorMainActivity : AppCompatActivity() {
 
@@ -41,11 +44,14 @@ class SupervisorMainActivity : AppCompatActivity() {
 
         navItemClickListener()
         setUpCardViewListeners()
+
+        // Update the navigation header
+        updateNavHeader("Username: Ahadu Supervisor", "User Role: Supervisor")
     }
 
     private fun navItemClickListener() {
         // Set up navigation drawer interactions using binding
-        binding.supportNavigationView.setNavigationItemSelectedListener { menuItem ->
+        binding.supervisorNavigationView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.nav_manage_cashier -> {
                     // Handle navigation to Manage Cashier
@@ -74,7 +80,8 @@ class SupervisorMainActivity : AppCompatActivity() {
     private fun setUpCardViewListeners() {
         // Set up onClickListeners for CardViews using binding
         binding.supervisorManageCashier.setOnClickListener {
-            // Handle Manage Cashier click
+            val intent = Intent(this@SupervisorMainActivity, SupervisorManageCashierActivity::class.java)
+            startActivity(intent)
         }
 
         binding.supervisorConfigTerminal.setOnClickListener {
@@ -96,5 +103,15 @@ class SupervisorMainActivity : AppCompatActivity() {
         binding.supervisorReprint.setOnClickListener {
             // Handle Reprint click
         }
+    }
+
+    // Method to update the Navigation Header Texts
+    private fun updateNavHeader(username: String, userrole: String) {
+        // Get the navigation view binding for the header
+        val headerBinding = NavHeaderBinding.bind(binding.supervisorNavigationView.getHeaderView(0))
+
+        // Update the username and userrole
+        headerBinding.username.text = username
+        headerBinding.userrole.text = userrole
     }
 }

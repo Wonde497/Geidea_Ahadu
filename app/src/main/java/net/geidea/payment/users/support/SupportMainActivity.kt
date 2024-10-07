@@ -11,7 +11,9 @@ import androidx.databinding.DataBindingUtil
 import dagger.hilt.android.AndroidEntryPoint
 import net.geidea.payment.R
 import net.geidea.payment.databinding.ActivitySupportMainBinding
+import net.geidea.payment.databinding.NavHeaderBinding
 import net.geidea.payment.help.HelpMainActivity
+import net.geidea.payment.users.admin.AdminManageSupportActivity
 
 @AndroidEntryPoint
 class SupportMainActivity : AppCompatActivity() {
@@ -43,6 +45,9 @@ class SupportMainActivity : AppCompatActivity() {
 
         // Set up OnClickListeners for CardViews
         setUpCardViewListeners()
+
+        // Update the navigation header
+        updateNavHeader("Username: Ahadu POS Support", "User Role: Support")
     }
 
     // Function to handle navigation item clicks
@@ -80,45 +85,54 @@ class SupportMainActivity : AppCompatActivity() {
 
     private fun setUpCardViewListeners() {
         binding.supportManageSupervisors.setOnClickListener {
-            Toast.makeText(this, "Manage Cashier clicked", Toast.LENGTH_SHORT).show()
-           // val intent = Intent(this, ManageCashierActivity::class.java)
-          //  startActivity(intent)
+            Toast.makeText(this, "Manage Support", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this@SupportMainActivity, SupportManageSupervisorActivity::class.java)
+            startActivity(intent)
         }
 
         binding.supportConfigTerminal.setOnClickListener {
-            Toast.makeText(this, "Config Terminal clicked", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Config Terminal", Toast.LENGTH_SHORT).show()
            val intent = Intent(this, CommunicationConfig::class.java)
             startActivity(intent)
         }
 
         binding.supportTerminalInfo.setOnClickListener {
-            Toast.makeText(this, "Terminal Info clicked", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Terminal Info", Toast.LENGTH_SHORT).show()
            // val intent = Intent(this, TerminalInfoActivity::class.java)
            // startActivity(intent)
         }
 
         binding.supportSettlement.setOnClickListener {
-            Toast.makeText(this, "Settlement clicked", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Settlement ", Toast.LENGTH_SHORT).show()
             //val intent = Intent(this, SettlementActivity::class.java)
            // startActivity(intent)
         }
 
         binding.supportSummaryReport.setOnClickListener {
-            Toast.makeText(this, "Summary Report clicked", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Summary Report ", Toast.LENGTH_SHORT).show()
             //val intent = Intent(this, SummaryReportActivity::class.java)
            // startActivity(intent)
         }
 
         binding.supportReprint.setOnClickListener {
-            Toast.makeText(this, "Reprint clicked", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Reprint ", Toast.LENGTH_SHORT).show()
             //val intent = Intent(this, ReprintActivity::class.java)
             //startActivity(intent)
         }
 
         binding.supportSettings.setOnClickListener {
-            Toast.makeText(this, "Settings clicked", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Settings ", Toast.LENGTH_SHORT).show()
             //val intent = Intent(this, SettingsActivity::class.java)
             //startActivity(intent)
         }
+    }
+    // Method to update the Navigation Header Texts
+    private fun updateNavHeader(username: String, userrole: String) {
+        // Get the navigation view binding for the header
+        val headerBinding = NavHeaderBinding.bind(binding.supportNavigationView.getHeaderView(0))
+
+        // Update the username and userrole
+        headerBinding.username.text = username
+        headerBinding.userrole.text = userrole
     }
 }
