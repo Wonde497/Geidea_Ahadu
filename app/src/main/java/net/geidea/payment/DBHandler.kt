@@ -1,5 +1,6 @@
 package net.geidea.payment
 
+import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
@@ -18,6 +19,8 @@ class DBHandler(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, nul
         private const val TABLE_MERCHANT_ADDRESS ="merchantAddress"
         private const val TABLE_TXN_DATA ="txn_data_table"
         private const val TABLE_COM_CONFIG ="comConfigTable"
+        private const val TABLE_SUPPORT="Support"
+
 
         //private const val TABLE_ADMIN ="admintable"
         //private const val TABLE_ADMIN ="admintable"
@@ -26,6 +29,8 @@ class DBHandler(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, nul
         private const val COLUMN_ID ="id"
         private const val COLUMN_USERNAME ="username"
         private const val COLUMN_PASSWORD ="password"
+        private const val COLUMN_SUP_USERNAME="support_useranme"
+        private const val COLUMN_SUP_PASSWORD="support_password"
         private const val COLUMN_TID ="TID"
         private const val COLUMN_MID ="MID"
         private const val COLUMN_MERCHANT_NAME ="merchantName"
@@ -59,7 +64,7 @@ class DBHandler(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, nul
             "CREATE TABLE $TABLE_ADMIN (" +
                     "$COLUMN_ID INTEGER PRIMARY KEY," +
                     "$COLUMN_USERNAME TEXT," +
-                    "$COLUMN_PASSWORD INTEGER)"
+                    "$COLUMN_PASSWORD TEXT)"
 
         private const val CREATE_TID =
             "CREATE TABLE $TABLE_TID (" +
@@ -110,6 +115,11 @@ class DBHandler(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, nul
                     "$COLUMN_ID INTEGER PRIMARY KEY," +
                     "$COLUMN_IP TEXT," +
                     "$COLUMN_PORT_NO TEXT)"
+        private const val CREATE_SUPPORT =
+            "CREATE TABLE $TABLE_SUPPORT (" +
+                    "$COLUMN_ID INTEGER PRIMARY KEY," +
+                    "$COLUMN_SUP_USERNAME TEXT," +
+                    "$COLUMN_SUP_PASSWORD TEXT)"
 
 //Queries to delete table
         private const val DELETE_ADMIN = "DROP TABLE IF EXISTS $TABLE_ADMIN"
@@ -119,6 +129,7 @@ class DBHandler(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, nul
         private const val DELETE_MERCHANT_ADDRESS = "DROP TABLE IF EXISTS $TABLE_MERCHANT_ADDRESS"
         private const val DELETE_TXN_DATA = "DROP TABLE IF EXISTS $TABLE_TXN_DATA"
         private const val DELETE_COM_CONFIG = "DROP TABLE IF EXISTS $TABLE_COM_CONFIG"
+        private const val DELETE_SUPPORT = "DROP TABLE IF EXISTS $TABLE_SUPPORT"
 
     }
     override fun onCreate(db: SQLiteDatabase?) {
@@ -130,6 +141,7 @@ class DBHandler(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, nul
             db.execSQL(CREATE_MERCHANT_ADDRESS)
             db.execSQL(CREATE_TXN_DATA)
             db.execSQL(CREATE_COM_CONFIG)
+            db.execSQL(CREATE_SUPPORT)
 
         }
     }
@@ -143,6 +155,7 @@ class DBHandler(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, nul
             db.execSQL(DELETE_MERCHANT_ADDRESS)
             db.execSQL(DELETE_TXN_DATA)
             db.execSQL(DELETE_COM_CONFIG)
+            db.execSQL(DELETE_SUPPORT)
 
 
         }
@@ -156,6 +169,16 @@ class DBHandler(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, nul
         }
 
         db.insert(TABLE_ADMIN, null, values)
+        db.close()
+    }
+    fun registerSupport(supportName:String,passwrd:String){
+        val db = this.writableDatabase
+        val values = ContentValues().apply {
+            put(COLUMN_SUP_USERNAME, supportName)
+            put(COLUMN_SUP_PASSWORD, passwrd)
+        }
+
+        db.insert(TABLE_SUPPORT,null, values)
         db.close()
     }
     fun registerTID(terminalID:String){
@@ -273,6 +296,101 @@ class DBHandler(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, nul
         db.close()
 
     }
+    @SuppressLint("Range")
+    fun getTxnData(): List<Map<String, String>> {
+        val db = this.readableDatabase
+        val cursor = db.query(
+            TABLE_TXN_DATA,
+            arrayOf(
+                COLUMN_MTI, COLUMN_BITMAP, COLUMN_FIELD02, COLUMN_FIELD03,
+                COLUMN_FIELD04, COLUMN_FIELD07, COLUMN_FIELD11, COLUMN_FIELD12,
+                COLUMN_FIELD14, COLUMN_FIELD22, COLUMN_FIELD24, COLUMN_FIELD25,
+                COLUMN_FIELD35, COLUMN_FIELD37, COLUMN_FIELD38, COLUMN_FIELD39,
+                COLUMN_FIELD41, COLUMN_FIELD42, COLUMN_FIELD49, COLUMN_FIELD52,
+                COLUMN_FIELD55
+            ),
+            null, null, null, null, null
+        )
+
+        val txnDataList = mutableListOf<Map<String, String>>()
+        while (cursor.moveToNext()) {
+            val txnData = mutableMapOf<String, String>()
+            txnData[COLUMN_MTI] = cursor.getString(cursor.getColumnIndex(COLUMN_MTI))
+            txnData[COLUMN_BITMAP] = cursor.getString(cursor.getColumnIndex(COLUMN_BITMAP))
+            txnData[COLUMN_FIELD02] = cursor.getString(cursor.getColumnIndex(COLUMN_FIELD02))
+            txnData[COLUMN_FIELD03] = cursor.getString(cursor.getColumnIndex(COLUMN_FIELD03))
+            txnData[COLUMN_FIELD04] = cursor.getString(cursor.getColumnIndex(COLUMN_FIELD04))
+            txnData[COLUMN_FIELD07] = cursor.getString(cursor.getColumnIndex(COLUMN_FIELD07))
+            txnData[COLUMN_FIELD11] = cursor.getString(cursor.getColumnIndex(COLUMN_FIELD11))
+            txnData[COLUMN_FIELD12] = cursor.getString(cursor.getColumnIndex(COLUMN_FIELD12))
+            txnData[COLUMN_FIELD14] = cursor.getString(cursor.getColumnIndex(COLUMN_FIELD14))
+            txnData[COLUMN_FIELD22] = cursor.getString(cursor.getColumnIndex(COLUMN_FIELD22))
+            txnData[COLUMN_FIELD24] = cursor.getString(cursor.getColumnIndex(COLUMN_FIELD24))
+            txnData[COLUMN_FIELD25] = cursor.getString(cursor.getColumnIndex(COLUMN_FIELD25))
+            txnData[COLUMN_FIELD35] = cursor.getString(cursor.getColumnIndex(COLUMN_FIELD35))
+            txnData[COLUMN_FIELD37] = cursor.getString(cursor.getColumnIndex(COLUMN_FIELD37))
+            txnData[COLUMN_FIELD38] = cursor.getString(cursor.getColumnIndex(COLUMN_FIELD38))
+            txnData[COLUMN_FIELD39] = cursor.getString(cursor.getColumnIndex(COLUMN_FIELD39))
+            txnData[COLUMN_FIELD41] = cursor.getString(cursor.getColumnIndex(COLUMN_FIELD41))
+            txnData[COLUMN_FIELD42] = cursor.getString(cursor.getColumnIndex(COLUMN_FIELD42))
+            txnData[COLUMN_FIELD49] = cursor.getString(cursor.getColumnIndex(COLUMN_FIELD49))
+            txnData[COLUMN_FIELD52] = cursor.getString(cursor.getColumnIndex(COLUMN_FIELD52))
+            txnData[COLUMN_FIELD55] = cursor.getString(cursor.getColumnIndex(COLUMN_FIELD55))
+            txnDataList.add(txnData)
+        }
+        cursor.close()
+        db.close()
+        return txnDataList
+    }
+    @SuppressLint("Range")
+    fun getTxnDataByApprovalCode(field38Value: String): List<Map<String, String>> {
+        val db = this.readableDatabase
+        val cursor = db.query(
+            TABLE_TXN_DATA,
+            arrayOf(
+                COLUMN_MTI, COLUMN_BITMAP, COLUMN_FIELD02, COLUMN_FIELD03,
+                COLUMN_FIELD04, COLUMN_FIELD07, COLUMN_FIELD11, COLUMN_FIELD12,
+                COLUMN_FIELD14, COLUMN_FIELD22, COLUMN_FIELD24, COLUMN_FIELD25,
+                COLUMN_FIELD35, COLUMN_FIELD37, COLUMN_FIELD38, COLUMN_FIELD39,
+                COLUMN_FIELD41, COLUMN_FIELD42, COLUMN_FIELD49, COLUMN_FIELD52,
+                COLUMN_FIELD55
+            ),
+            "$COLUMN_FIELD38 = ?",
+            arrayOf(field38Value),
+            null, null, null
+        )
+
+        val txnDataList = mutableListOf<Map<String, String>>()
+        while (cursor.moveToNext()) {
+            val txnData = mutableMapOf<String, String>()
+            txnData[COLUMN_MTI] = cursor.getString(cursor.getColumnIndex(COLUMN_MTI))
+            txnData[COLUMN_BITMAP] = cursor.getString(cursor.getColumnIndex(COLUMN_BITMAP))
+            txnData[COLUMN_FIELD02] = cursor.getString(cursor.getColumnIndex(COLUMN_FIELD02))
+            txnData[COLUMN_FIELD03] = cursor.getString(cursor.getColumnIndex(COLUMN_FIELD03))
+            txnData[COLUMN_FIELD04] = cursor.getString(cursor.getColumnIndex(COLUMN_FIELD04))
+            txnData[COLUMN_FIELD07] = cursor.getString(cursor.getColumnIndex(COLUMN_FIELD07))
+            txnData[COLUMN_FIELD11] = cursor.getString(cursor.getColumnIndex(COLUMN_FIELD11))
+            txnData[COLUMN_FIELD12] = cursor.getString(cursor.getColumnIndex(COLUMN_FIELD12))
+            txnData[COLUMN_FIELD14] = cursor.getString(cursor.getColumnIndex(COLUMN_FIELD14))
+            txnData[COLUMN_FIELD22] = cursor.getString(cursor.getColumnIndex(COLUMN_FIELD22))
+            txnData[COLUMN_FIELD24] = cursor.getString(cursor.getColumnIndex(COLUMN_FIELD24))
+            txnData[COLUMN_FIELD25] = cursor.getString(cursor.getColumnIndex(COLUMN_FIELD25))
+            txnData[COLUMN_FIELD35] = cursor.getString(cursor.getColumnIndex(COLUMN_FIELD35))
+            txnData[COLUMN_FIELD37] = cursor.getString(cursor.getColumnIndex(COLUMN_FIELD37))
+            txnData[COLUMN_FIELD38] = cursor.getString(cursor.getColumnIndex(COLUMN_FIELD38))
+            txnData[COLUMN_FIELD39] = cursor.getString(cursor.getColumnIndex(COLUMN_FIELD39))
+            txnData[COLUMN_FIELD41] = cursor.getString(cursor.getColumnIndex(COLUMN_FIELD41))
+            txnData[COLUMN_FIELD42] = cursor.getString(cursor.getColumnIndex(COLUMN_FIELD42))
+            txnData[COLUMN_FIELD49] = cursor.getString(cursor.getColumnIndex(COLUMN_FIELD49))
+            txnData[COLUMN_FIELD52] = cursor.getString(cursor.getColumnIndex(COLUMN_FIELD52))
+            txnData[COLUMN_FIELD55] = cursor.getString(cursor.getColumnIndex(COLUMN_FIELD55))
+            txnDataList.add(txnData)
+        }
+        cursor.close()
+        db.close()
+        return txnDataList
+    }
+
     fun registerIPAndPortNumber(ip:String,portNumber:String) {
         val db = this.writableDatabase
         val values = ContentValues().apply {
@@ -416,6 +534,14 @@ class DBHandler(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, nul
     fun isAdminExists(username: String, password: String): Boolean {
         val db = this.readableDatabase
         val cursor = db.query(TABLE_ADMIN, arrayOf(COLUMN_ID), "$COLUMN_USERNAME=? AND $COLUMN_PASSWORD=?", arrayOf(username, password), null, null, null)
+        val count = cursor.count
+        cursor.close()
+        db.close()
+        return count > 0
+    }
+    fun isSupportExists(username: String, password: String): Boolean {
+        val db = this.readableDatabase
+        val cursor = db.query(TABLE_SUPPORT, arrayOf(COLUMN_ID), "$COLUMN_USERNAME=? AND $COLUMN_PASSWORD=?", arrayOf(username, password), null, null, null)
         val count = cursor.count
         cursor.close()
         db.close()

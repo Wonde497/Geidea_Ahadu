@@ -1,5 +1,6 @@
 package net.geidea.payment.users.admin
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -79,6 +80,7 @@ class AdminManageSupportActivity : AppCompatActivity() {
         // Set onClickListeners for each card
         binding.adminAddSupport.setOnClickListener {
             // Handle the 'Add Support' click event
+        startActivity(Intent(this,RegisterSupport::class.java))
         }
 
         binding.adminViewSupport.setOnClickListener {

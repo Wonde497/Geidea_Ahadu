@@ -21,6 +21,7 @@ import net.geidea.payment.utils.TransactionProcess.MultipleApplication
 import net.geidea.payment.databinding.ActivityCardReadBinding
 import net.geidea.payment.listener.PinPadListener
 import net.geidea.payment.print.PrintStatus
+import net.geidea.payment.transaction.model.TransData
 import net.geidea.payment.transaction.viewmodel.CardReadViewModel
 import net.geidea.payment.utils.FirebaseDatabaseSingleton
 import net.geidea.utils.BuzzerUtils
@@ -150,6 +151,7 @@ class CardReadActivity : AppCompatActivity() {
                         BuzzerUtils.playForTransactionApproved()
                         binding.layoutTransactionStatus.transactionStatus.text =
                             getString(R.string.approved)
+                        binding.layoutTransactionStatus.tvApprovalCode.text="Approval Code :${TransData.ResponseFields.Field38}"
                         binding.layoutTransactionStatus.transactionStatusImage.setImageResource(R.drawable.approved)
                     } else {
                         FirebaseDatabaseSingleton.setLog("TransactionStatus - Declined")

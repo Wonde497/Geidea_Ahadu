@@ -56,7 +56,7 @@ class LoginMainActivity : AppCompatActivity() {
         // Hard coded login sample
         if (dbHandler.isAdminExists(username,password) && userType == "Admin") {
             navigateToActivity(AdminMainActivity::class.java)
-        } else if (username == "support" && password == "password" && userType == "Support") {
+        } else if (dbHandler.isSupportExists(username,password)&& userType == "Support") {
             navigateToActivity(SupportMainActivity::class.java)
         } else if (username == "supervisor" && password == "password" && userType == "Supervisor") {
             navigateToActivity(SupervisorMainActivity::class.java)

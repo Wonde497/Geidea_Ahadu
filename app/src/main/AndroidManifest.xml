@@ -13,6 +13,9 @@
         tools:replace="android:icon,android:roundIcon"
         tools:targetApi="31">
         <activity
+            android:name=".users.admin.RegisterSupport"
+            android:exported="false" />
+        <activity
             android:name=".users.support.UpdateMerchantID"
             android:exported="false" />
         <activity
@@ -116,7 +119,6 @@
         <activity
             android:name=".transaction.ReversalMainActivity"
             android:exported="false" />
-
     </application>
 
 </manifest>

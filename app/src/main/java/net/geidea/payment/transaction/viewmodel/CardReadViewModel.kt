@@ -265,9 +265,11 @@ class CardReadViewModel @Inject constructor(@ApplicationContext val context: Con
                     Thread(onlineRequest).start()
                 }, 2000)
                 FirebaseDatabaseSingleton.setLog("$transData")
-
+                printTags()
                 // simulating response here
-                emvCoreManager.onSetOnlineResponse(processOnlineResult("8A023030"));
+
+                //emvCoreManager.onSetOnlineResponse(processOnlineResult(TransData.ResponseFields.Field39))
+                //emvCoreManager.onSetOnlineResponse(processOnlineResult(transData.responseMessage));
             }
 
 
@@ -275,7 +277,9 @@ class CardReadViewModel @Inject constructor(@ApplicationContext val context: Con
         val onlineRequest=Runnable{
             transData.assignValue2Fields()
             val packet=transData.packRequestFields()
-            val com= Comm("10.131.232.61",9500)
+            Log.d(tag,"packet ")
+
+            val com= Comm("172.16.17.27",6022)
             if(!com.connect()){
 
                 Log.d(tag,"Connection failed")
@@ -283,13 +287,34 @@ class CardReadViewModel @Inject constructor(@ApplicationContext val context: Con
             }else{
 
                 com.send(packet)
-                val response=com.receive(1024,30)
+                Log.d(tag, "message sent...:")
+
+                var response=com.receive(1024,30)
+                Log.d(tag, "Received response:$response")
+                Log.d(tag, "Received response:"+ response?.let { HexUtil.toHexString(it) })
+
+
                 if(response==null){
 
                     Log.d(tag,"Response Null")
 
+                }else{
+
+                    response?.let { HexUtil.toHexString(it) }
+                        ?.let { transData.unpackResponseFields(it) }
+                    emvCoreManager.onSetOnlineResponse(processOnlineResult(TransData.ResponseFields.Field39))
+
                 }
-                Log.d(tag,"Received response:"+ response?.let { HexUtil.toHexString(it) })
+
+
+
+
+
+
+
+
+                //Log.d(tag,"Received response:"+ response?.let { HexUtil.toHexString(it) })
+                //Log.d(tag,"Received response:"+response)
 
 
 
@@ -552,27 +577,32 @@ class CardReadViewModel @Inject constructor(@ApplicationContext val context: Con
 
     private fun processOnlineResult(data: String): Bundle? {
         FirebaseDatabaseSingleton.setLog("processOnlineResult - $data")
+        Log.d("CardReader", "onClick - printReceipt")
+
+        ///transData.unpackResponseFields(data)
         val bundle = Bundle()
-        val tlvBuilder = BerTlvBuilder()
-        var authRespCode: String? = null
+        //val tlvBuilder = BerTlvBuilder()
+        var authRespCode1: String? = null
         var authCode: String? = null
         var script: String? = null
-        val tlvParser = BerTlvParser()
+        /*val tlvParser = BerTlvParser()
         val tlvs: List<BerTlv> = tlvParser.parse(HexUtil.parseHex(data)).list
         for (tlv in tlvs) {
             when (tlv.tag.berTagHex) {
-                "8A" -> authRespCode = tlv.hexValue
+                "8A" -> authRespCode1 = tlv.hexValue
                 "91" -> authCode = tlv.hexValue
                 "71", "72" -> tlvBuilder.addBerTlv(tlv)
                 else -> {}
             }
-        }
-        if (tlvBuilder.build() !== 0) {
-            script = HexUtil.toHexString(tlvBuilder.buildArray())
-        }
+        }*/
+        val authRespCode=data
+        //if (tlvBuilder.build() !== 0) {
+            //script = HexUtil.toHexString(tlvBuilder.buildArray())
+       // }
+
         if (authRespCode != null) {
             when (authRespCode) {
-                "3030" -> {
+                "00" -> {
                     bundle.putInt(
                         EmvOnlineConstraints.OUT_AUTH_RESP_CODE,
                         EmvOnlineConstraints.EMV_ONLINE_APPROVE
@@ -582,7 +612,7 @@ class CardReadViewModel @Inject constructor(@ApplicationContext val context: Con
                     )
                 }
 
-                "3031" -> {
+                "01" -> {
                     bundle.putInt(
                         EmvOnlineConstraints.OUT_AUTH_RESP_CODE,
                         EmvOnlineConstraints.EMV_ONLINE_REFER_TO_CARD_ISSUER
@@ -592,7 +622,7 @@ class CardReadViewModel @Inject constructor(@ApplicationContext val context: Con
                     )
                 }
 
-                "3032" -> {
+                "02" -> {
                     bundle.putInt(
                         EmvOnlineConstraints.OUT_AUTH_RESP_CODE,
                         EmvOnlineConstraints.EMV_ONLINE_DENIAL
@@ -602,7 +632,7 @@ class CardReadViewModel @Inject constructor(@ApplicationContext val context: Con
                     )
                 }
 
-                "3535" -> {
+                "55" -> {
                     bundle.putInt(
                         EmvOnlineConstraints.OUT_AUTH_RESP_CODE,
                         EmvOnlineConstraints.EMV_ONLINE_FAIL
@@ -641,14 +671,17 @@ class CardReadViewModel @Inject constructor(@ApplicationContext val context: Con
         if(it.key.equals("57")){
             TransData.RequestFields.Field35=it.value
         }
+            if(it.key.equals("9F02")){
+                TransData.RequestFields.Field04=it.value
+            }
     }
-    val tagList = arrayListOf("82", "84", "95","9A","9C","5F2A","5F34","9F02","9F10","9F1A","9F26","9F27","9F33","9F34","9F35","9F36","9F37")
+    val tagList = arrayListOf("82", "84", "95","9A","9C","5F2A","5F34","9F02","9F09","9F10","9F1A","9F1E","9F26","9F27","9F33","9F34","9F35","9F36","9F37","9F41")
     val total = StringBuilder()
     lateinit var value:String
     for(tags in tagList){
-        if(tags=="95"){
+        if(tagValueMap["95"].toString().equals("")){
             value="0000000000"
-        }else if(tags=="9F34"){
+        }else if(tagValueMap["9F34"].toString().equals("")){
             value="000000"
         }else {
             value= tagValueMap[tags].toString()
@@ -663,6 +696,7 @@ class CardReadViewModel @Inject constructor(@ApplicationContext val context: Con
     fun setAmount(amount: Long) {
         FirebaseDatabaseSingleton.setLog("setAmount - $amount")
         transData.amount = amount
+
     }
 
 
@@ -751,7 +785,7 @@ class CardReadViewModel @Inject constructor(@ApplicationContext val context: Con
 //TID:30102023
         printerManager.addPrintLine(
             Printer.printList(
-                "POS ID :${dbhandler.getTID()}", "", "MID : ${dbhandler.getMID()}", 16, false
+                " TID :${dbhandler.getTID()}", "", "MID : ${dbhandler.getMID()}", 16, false
             )
         )
 
@@ -807,7 +841,7 @@ class CardReadViewModel @Inject constructor(@ApplicationContext val context: Con
 
         printerManager.addPrintLine(
             printList(
-                "RRN : ${transData.rrn}", "", "RECEIPT No : ${transData.stan}", 16, false
+                "RRN : ${TransData.ResponseFields.Field37}", "", "RECEIPT No : ${transData.stan}", 16, false
             )
         )
 
@@ -841,7 +875,7 @@ class CardReadViewModel @Inject constructor(@ApplicationContext val context: Con
             printerManager.addBlankView(1)
             printerManager.addPrintLine(
                 printList(
-                    "APPROVAL CODE :", "", "101659", 20, true
+                    "APPROVAL CODE :", "", "${TransData.ResponseFields.Field38}", 20, true
                 )
             )
         } else {
@@ -955,20 +989,17 @@ class CardReadViewModel @Inject constructor(@ApplicationContext val context: Con
         transData.stan = getSTAN(context)
         if (tagValueMap.containsKey(PAN_NUMBER)) {
             transData.pan = tagValueMap[PAN_NUMBER] ?: ""
-            if (transData.pan.isNotEmpty()) {
-                transData.pan = maskPan(transData.pan)
-            }
+
         } else if (tagValueMap.containsKey(TRACK2) && transData.pan.isEmpty()) {
             transData.pan = getPan(tagValueMap[TRACK2]) ?: ""
-            if (transData.pan.isNotEmpty()) {
-                transData.pan = maskPan(transData.pan)
-            }
+
         }
 
         if (tagValueMap.containsKey(EXP_DATE)) {
             transData.cardExpiryDate = tagValueMap[EXP_DATE] ?: ""
         } else if (tagValueMap.containsKey(TRACK2) && transData.cardExpiryDate.isEmpty()) {
             transData.cardExpiryDate = getCardExpireDate(tagValueMap[TRACK2]) ?: ""
+            transData.cardExpiryDate=transData.cardExpiryDate.substringBefore("31")
         }
 
         if (tagValueMap.containsKey(CARD_AID)) {
